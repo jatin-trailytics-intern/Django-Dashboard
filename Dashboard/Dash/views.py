@@ -7,7 +7,7 @@ from corescripts.pla import *
 from corescripts.pca import *
 from corescripts.main_pla_pca import *
 from corescripts.fk_walllet_balance import *
-from corescripts.amazon_scripts.campaign_data import *
+from corescripts.amazon_scripts.Amazon_campaigns import *
 from corescripts.amazon_scripts.fetching_adgroup_data import *
 import requests
 import os
