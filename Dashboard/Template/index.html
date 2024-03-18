@@ -1,0 +1,354 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  <script type="text/javascript" src="{% static 'draw.js' %}" defer></script>
+  <link href="https://unpkg.com/tabulator-tables@5.6.1/dist/css/tabulator.min.css" rel="stylesheet">
+  <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.6.1/dist/js/tabulator.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <script type="text/javascript">
+    const datamapping = {{ data|safe }} ?? {'msg': 'No data'} ;
+    // const dates = {{ data.date|safe }};
+    // const views = {{ data.impressions|safe }};
+    // const clicks = {{ data.clicks|safe }};
+    // const ad_spend = {{ data.ads_spend|safe }};
+    // const ad_revenue = {{ data.cdcr|safe }};
+    // const orders = {{ data.cdcu|safe }};
+   </script> 
+
+
+   <style type="text/css">
+     
+main-header {
+    box-shadow: none;
+    border-bottom: 1px solid rgba(30,40,53,.06);
+    min-height: 50px;
+    z-index: 4;
+    }
+
+#membership{
+  padding: 5px;
+  background: transparent;
+  border-radius: 5px;
+  height: 30px;
+  text-align: center;
+  font-size: .8rem;
+  margin: 0 10px;
+}
+
+.one{
+  width: 150px;
+}
+
+.two{
+  background: grey !important;
+  opacity: .3;
+  width: 240px;
+  text-align: initial !important;
+  pointer-events: none;
+}
+
+.three{
+  width: 160px;
+  margin-right: 20px;
+  background: #E5F2FF !important;
+  color:#4992FD;
+
+}
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+button{
+  border:none;
+  border-radius:5px;
+  padding:5px 50px;
+  margin: 0 30px;
+  font-size:.8rem;
+  cursor:pointer;
+}
+
+button:hover{
+  background-color:#ddd;
+}
+
+.dropdown-options {
+  display: none;
+  position: absolute;
+  overflow: auto;
+  background-color:#fff;
+  border-radius:5px;
+  box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+}
+
+.dropdown:hover .dropdown-options {
+  display: block;
+}
+
+.dropdown-options a {
+  display: block;
+  color: #000000;
+  text-decoration: none;
+  padding:5px 40px;
+}
+
+.dropdown-options a:hover {
+  color: #0a0a23;
+  background-color: #ddd;
+  border-radius:5px;
+}
+
+
+
+.tabs{
+  background: white;
+  border:solid;
+  border-width: 2px;
+  border-color: white;
+  padding: 1pt;
+  color: black;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+
+#reportrange{
+ cursor: pointer;
+ border: 1px solid #e2e8ee;
+ border-radius:5px;
+ width: 100%;
+ background: #e5f2ff;
+ color:#0e88ff;
+
+}
+
+#reportrange:hover{
+  background: #0081ff;
+  color:#f9fcff;
+}
+
+
+   </style>
+</head>
+<body>
+
+<!--    Side Nav bar         -->
+  <nav class="col-md-2 d-none d-md-block bg-dark sidebar " style="position:fixed; z-index: 5; width: 15vw;">
+  <div class="sidebar-sticky">
+    <ul class="nav flex-column" style="border-bottom: solid; border-width: 2px; border-color: black;">
+      <li class="nav-item bg-danger">
+        <a class="nav-link active text-white fs-5 fw-bolder" href="#" >
+          <span data-feather="home"> TRAILYTICS</span>
+        </a>
+      </li>
+    </ul>
+
+    <ul class="nav flex-column" style="border-bottom: solid; border-width: 1px; border-color: grey;">
+      <li class="nav-item text-white" style="text-align: center;">
+      <a class="nav-link text-white" href="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+</svg>
+         Nivea User </br>
+        <span style="color: grey;">Logout</span>
+        </
+      </li>
+    </ul>
+    <ul class="nav flex-column"  style="border-bottom: solid; border-width: 1px; border-color: grey; align-items: center;">
+    <h6 class="sidebar-heading d-flex justify-content-between align-items-center  text-muted" style="text-align: center;">
+      <span>Wallet Balance</span>
+      <h5 class="text-white"> {{ balance }}</h5>
+        <span data-feather="plus-circle"></span>
+      </a>
+    </h6>
+  </ul>
+    <ul class="nav flex-column mb-2">
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6 " href="../Home">
+          Performance Overview
+        </a>
+      </li>
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="#">
+          <span data-feather="file-text"></span>
+          Rules
+        </a>
+      </li>
+        <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="">
+          Keywords Analytics
+        </a>
+      </li>
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="#">
+          <span data-feather="file-text"></span>
+          Product Analytics
+        </a>
+      </li>
+        <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="">
+          Negative Keywords
+        </a>
+      </li>
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="#">
+          <span data-feather="file-text"></span>
+          Recommendations
+        </a>
+      </li>
+        <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="">
+          Common Reports
+        </a>
+      </li>
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="#">
+          <span data-feather="file-text"></span>
+          History
+        </a>
+      </li>
+        <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="">
+          Settings
+        </a>
+      </li>
+      <li class="nav-item p-1">
+        <a class="nav-link text-white fs-6" href="#">
+          <span data-feather="file-text"></span>
+          Integrations
+        </a>
+      </li>
+    </ul>
+    <h6 style="color:grey;" class="p-3 text-center">Version - 1.8.0</h6>
+  </div>
+</nav>
+
+
+
+<!-- Ends   Here  -->
+<div style="min-width: 80vw; margin-left: 15vw; border-bottom: solid; border-width: 1px;">
+<form action="." method="POST" id="frm">
+{% csrf_token %}
+<div class="main-header p-2 px-3 d-sm-flex flex-row justify-content-between align-items-center" style="border-bottom:solid; border-color: #f2f2f2;">
+<h4 class="flex-grow-1 mb-md-0" data-testid="title">Performance Overview</h4>
+<button type="button" class="ant-btn css-1jr9qlj ant-btn-default card ms-1 mx-2" style="display: unset; padding: 3px 8.5px; border-radius: 6px;"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" style="font-size: 16px;" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"></path></svg></button>
+<button type="button" class="ant-btn css-1jr9qlj ant-btn-default btn btn-primary me-2" style="display: none;"><span>Rules Summary</span></button>
+<div class="dropdown">
+
+
+<!--         <select name="platf" id="platf">
+            <option value="0">Amazon</option>
+            <option value="1">Flipkart</option>
+        </select>
+ -->
+  <button>{{ pf_op }}</button>
+
+  <div class="dropdown-options">
+    <a href="{% url 'amzhome' %}">Amazon</a>
+    <a href="{% url 'flipkhome' %}">Flipkart</a>
+  </div>
+</div>
+
+<div class="dropdown">
+<select name="membership" id="membership" class="two">
+  <option value="Nivea">Nivea (IN)</option>
+</select>
+</div>
+
+<div class="dropdown">
+<div id="reportrange">
+    <i class="fa fa-calendar"><svg 
+ width="16.000000pt" height="16.000000pt" viewBox="0 0 16.000000 16.000000"
+>
+
+<g transform="translate(0.000000,16.000000) scale(0.100000,-0.100000)"
+fill="#0e88ff" stroke="none">
+<path d="M20 142 c-6 -2 -10 -30 -10 -63 l0 -59 65 0 65 0 0 60 c0 33 -3 60
+-7 61 -37 3 -105 3 -113 1z m110 -23 c0 -5 -25 -9 -55 -9 -30 0 -55 4 -55 9 0
+5 25 9 55 9 30 0 55 -4 55 -9z m0 -54 l0 -35 -55 0 -55 0 0 35 0 35 55 0 55 0
+0 -35z"/>
+</g>
+</svg>
+</i>&nbsp;
+    <span style=""></span>
+    <i class="fa fa-caret-down"></i>
+    <input type="text" name="dates" onkeydown="return false"  style="padding:5px;" hidden /> 
+</div>
+<input type="submit" name="sub" value="submit" style="background:transparent; color: limegreen; box-shadow: none;"  />
+
+<script type="text/javascript">
+  $(function() {
+
+    var start = moment().subtract(6, 'days');
+    var end = moment();
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        $('#reportrange input').val(start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD'));
+
+    }
+
+    $('#reportrange').daterangepicker({
+        startDate: start,
+        endDate: end,
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+    }, cb);
+
+    cb(start, end);
+});
+  
+</script>
+</div>
+</div>
+</form>
+<div class="sub-header p-2 d-sm-flex flex-row justify-content-between align-items-center text-black"><div class="clearfix" id="savedFilters"><span class="selectedFilters float-none float-sm-start ellipsis"><span class="selected-filter badge border ms-1 mt-1 position-relative" id="filter-element" style="width: 150px; padding: 7px; font-size:11px; background:#DDD; color: #222;">report_date = Last 7 Days</span></span><div style="display: inline-block; margin-top: 0.4rem;"><div></div><div><div class="card shadow" id="filters-drop-down"></div></div></div></div><div class="text-center text-sm-start" style="height: 100%;"><div class="d-flex"></div></div></div>
+</div>
+
+<div class="tabs-exportbtn__container " style="margin-left: 16vw; margin-top:10px">
+
+<a id="overview-tab" class="tabs " href="{% url 'amzhome' %}"><span>Overview&nbsp;</span></a>
+
+<a id="portfolios-tab" class=" tabs" href="../con1/"><span>Portfolios&nbsp;<span id="portfolios-badge"><span class="mx-1 rounded-pill badge bg-dark">7</span></span></span></a>
+
+<a id="campaigns-tab" class=" tabs"  href="../con2"><span>Campaigns&nbsp;<span id="campaigns-badge"><span class="mx-1 rounded-pill badge bg-dark">141</span></span></span></a>
+
+<a id="adgroups-tab" class="tabs " href="{% url 'adgroup' %}"><span>Adgroups&nbsp;<span id="adgroups-badge"><span class="mx-1 rounded-pill badge bg-dark">59</span></span></span></a>
+
+<a id="keywords-tab" class=" tabs" href="../"><span>Keywords&nbsp;<span id="keywords-badge"><span class="mx-1 rounded-pill badge bg-dark">670</span></span></span></a>
+
+<a id="products-tab" class="tabs " href="../failed"><span>Products&nbsp;<span id="products-badge"><span class="mx-1 rounded-pill badge bg-dark">45</span></span></span></a></div>
+
+
+
+</div>
+
+
+
+  {% block content %}
+
+  {% endblock %}
+
+
+<footer class="footer p-2 pb-3 d-flex justify-content-between align-items-center flex-wrap border-top fixed-bottom bg-white" style="z-index: 1;" id="footer"><div class="container-fluid text-end text-muted font-xs">| All rights reserved © Trailytics</div></footer>
+</body>
+</html>

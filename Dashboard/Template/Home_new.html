@@ -1,0 +1,533 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  /* Internal CSS styles */
+
+
+  #example-table,
+  #example-table-2 {
+    width: 100%;
+    border-radius: 25px;
+    background-color: transparent;
+    width: 100%;
+    padding: 1%;
+  }
+
+  #example-table .tabulator-paginator>button,
+  #example-table-2 .tabulator-paginator>button {
+    opacity: 1;
+    width: 50px;
+  }
+.tabulator-tableholder{
+  overflow: scroll;
+}
+  .tabulator-table{
+    width: 100%;
+    background-color: transparent;
+  }
+
+  /* .tabulator .tabulator-footer .tabulator {
+     padding-top: 3%;
+  } */
+  /* .tabulator .tabulator-footer .tabulator-page.active:hover{
+    border: 2px solid black;
+  } */
+  #example-table .tabulator-header,
+  #example-table-2 .tabulator-header {
+    color: black;
+    background-color: white;
+
+  }
+
+
+  #example-table .tabulator-col,
+  #example-table-2 .tabulator-col {
+    margin-top: 0%;
+    margin-bottom: 3%;
+    background-color: white;
+    width:fit-content;
+  }
+
+  #example-table .tabulator-tableholder .tabulator-row:nth-child(odd),
+  #example-table-2 .tabulator-tableholder .tabulator-row:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 1);
+  
+  }
+
+
+  #example-table .tabulator-tableholder .tabulator-row:nth-child(even),
+  #example-table-2 .tabulator-tableholder .tabulator-row:nth-child(even) {
+    background-color: rgba(255, 255, 255, 1);
+    
+
+  }
+
+  .tabulator-cell>div>div {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  #example-table .tabulator-row,
+  #example-table-2 .tabulator-row {
+    background-color: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(197, 197, 197);
+    padding: 1.5% 2% 1.5% 0%;
+    font-weight: 500;
+    width: 100%;
+  }
+
+  #example-table .tabulator-tableholder .tabulator-row:hover,
+  #example-table-2 .tabulator-tableholder .tabulator-row:hover {
+    background-color: rgba(113, 113, 113, 0.1);
+    box-shadow: none;
+  }
+
+  /* 
+  .tabulator-row{
+    
+  } */
+  .card {
+    border-radius: 20px;
+    box-shadow: 1px 1px 20px rgb(215, 215, 215);
+    padding: 1%;
+  }
+  .card h4{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    border-bottom: 1px solid rgb(197, 197, 197);
+    padding-left: 2%;
+    padding-top: 2%;
+    padding-bottom: 3%;
+  }
+
+  /* .tabulator-header{
+    
+  } */
+  .tabulator-row .tabulator-cell,
+  .tabulator .tabulator-header .tabulator-col {
+    padding-left: 2%;
+    border: none;
+  }
+
+  /* .tabulator-col-sorter-element{
+    border: none;
+  } */
+
+  .tabulator .tabulator-footer,
+  .tabulator .tabulator-header {
+    background-color: white;
+    padding: 2% 0% 2% 0%;
+    border: none;
+  }
+
+  /* .tabulator .tabulator-header .tabulator-col.tabulator-sortable .tabulator-col-title {
+    width:fit-content;
+  } */
+
+  .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-sorter {
+    visibility: hidden;
+    margin: 0%;
+    padding: 0%;
+  }
+
+  .tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title-holder{
+    
+    position: relative;
+    width:100%;
+  }
+
+  .tabulator {
+    border: none;
+  }
+  .tabulator-footer{
+    border: none;
+    background-color: aliceblue;
+  }
+</style>
+<main style="min-width:70vw; width: 90vw; padding-left: 8vw; margin-left:10vh ;">
+  <div class="container-fluid  p-2 mx-5 ">
+    <div class="row row-cols-1 row-cols-sm-2 g-3 my-3 container-fluid  "
+      style="border:solid; border-color: ghostwhite;  border-radius: 20px; box-shadow: 1px 1px 20px rgb(215, 215, 215);">
+      <p style="position:absolute; font-size:.9rem;">Compared to 7 days ago. (March 01, 2024-March 07, 2024)</p>
+      <div class="col">
+        <svg width="500" height="350" viewBox="0 0 1846 651" style="padding: 0; margin: 0; ">
+          <defs>
+            <clipPath id="clip-Web_1920_1">
+              <rect width="1846" height="651" />
+            </clipPath>
+          </defs>
+          <g id="Web_1920_1" data-name="Web 1920 – 1" clip-path="url(#clip-Web_1920_1)">
+            <rect width="1846" height="651" fill="#fff" />
+            <g id="Group_1" data-name="Group 1" transform="translate(-24 -201)">
+              <g id="impression_group" data-name="Group Impression" transform="translate(44.514 218.216)"
+                class="clickable active" data-group="impression" style="cursor: pointer;">
+                <path id="Path_impression" data-name="Path 2" d="M-30,0H621L590.389,160H.611Z"
+                  class="rev-primary-color shape-primary" transform="translate(30)"
+                  style="fill: rgb(255, 0, 0); opacity: 1;" />
+                <g id="impression_value_group" data-name="Group Impression Value">
+          <text text-anchor="middle" id="impressions" transform="translate(325 60)" fill="#fff" font-size="45" font-family="Noto Sans, sans-serif">
+            Impressions
+          </text>
+          <text text-anchor="middle" id="impression_value" data-name="impression_value" transform="translate(325 120)" fill="#fff" font-size="38" font-family="Noto Sans, sans-serif">{{ data.totals.1 }}</text>
+        </g>
+                <g id="impression_change_group" data-name="Group Impression Change" transform="translate(500 50)">
+                  <path id="impression_delta_indicator" data-name="impression_delta_indicator" d="M25,0,50,43H0Z"
+                    transform="rotate(90) translate(0 -35)"
+                    style="display: unset; transform: translate(50px, 30px) rotate(180deg); fill: rgb(255, 59, 59);" />
+                  <text text-anchor="middle" id="impression_delta_value" data-name="impression_delta_value" fill="#fff"
+                    font-size="30" font-family="Noto Sans, sans-serif" transform="translate(30 80)"
+                    style="display: unset;">-28.87%</text>
+                </g>
+              </g>
+              <g id="click_group" data-name="Group Click" transform="translate(257 437)" class="clickable active"
+                data-group="click" style="cursor: pointer;">
+                <path id="Path_click" data-name="Path 2" d="M-30,0H621L590.389,160H.611Z"
+                  class="rev-primary-color shape-primary" transform="translate(30)"
+                  style="fill: rgb(13, 110, 253); opacity: 1;" />
+                        <g id="click_value_group" data-name="Group Click Value">
+          <text text-anchor="middle" id="clicks" transform="translate(325 60)" fill="#fff" font-size="45" font-family="Noto Sans, sans-serif">
+            Clicks
+          </text>
+          <text text-anchor="middle" id="click_value" data-name="impression_value" transform="translate(325 120)" fill="#fff" font-size="38" font-family="Noto Sans, sans-serif">{{ data.totals.2 }}</text>
+        </g>
+                <g id="click_change_group" data-name="Group Click Change" transform="translate(500 50)">
+                  <path id="click_delta_indicator" data-name="click_delta_indicator" d="M25,0,50,43H0Z"
+                    transform="rotate(90) translate(0 -35)"
+                    style="display: unset; transform: translate(50px, 30px) rotate(180deg); fill: rgb(255, 59, 59);" />
+                  <text text-anchor="middle" id="click_delta_value" data-name="click_delta_value" fill="#fff"
+                    font-size="30" font-family="Noto Sans, sans-serif" transform="translate(30 80)"
+                    style="display: unset;">-23.78%</text>
+                </g>
+              </g>
+              <g id="order_group" data-name="Group Order" transform="translate(529 652)" class="clickable active"
+                data-group="orders" style="cursor: pointer;">
+                <path id="Path_order" data-name="Path 2" d="M-30,0H415.407L394.463,160H-9.056Z"
+                  class="rev-primary-color shape-primary" transform="translate(30)"
+                  style="fill: rgb(13, 110, 253); opacity: 1;" />
+                <g id="order_value_group" data-name="Group order Value" transform="translate(220 60)">
+                  <text text-anchor="middle" id="clicks" fill="#fff" font-size="45" font-family="Noto Sans, sans-serif">
+                    Orders
+                  </text>
+                  <text text-anchor="middle" id="orders_value" data-name="orders_value" transform="translate(0 60)"
+                    fill="#fff" font-size="38" font-family="Noto Sans, sans-serif">{{ data.totals.4}}</text>
+                </g>
+                <g id="orders_change_group" data-name="Group Order Change" transform="translate(325 50)">
+                  <path id="orders_delta_indicator" data-name="orders_delta_indicator" d="M25,0,50,43H0Z"
+                    transform="rotate(90) translate(0 -35)"
+                    style="display: unset; transform: translate(50px, 30px) rotate(180deg); fill: rgb(255, 59, 59);" />
+                  <text text-anchor="middle" id="orders_delta_value" data-name="orders_delta_value" fill="#fff"
+                    font-size="30" font-family="Noto Sans, sans-serif" transform="translate(30 80)"
+                    style="display: unset;">-38.09%</text>
+                </g>
+              </g>
+              <g id="spend_group" data-name="Group Spend" transform="translate(1200 450)" class="clickable active"
+                data-group="spend" style="cursor: pointer;">
+                <rect id="Rectangle_spend" data-name="Rectangle 10" width="525" height="140" rx="10"
+                  transform="translate(170 25)" class="rev-primary-color shape-primary"
+                  style="fill: rgb(13, 110, 253); opacity: 1;" />
+                <g id="spend_value_group" data-name="Group Spend Value" transform="translate(420 80)">
+                  <text text-anchor="middle" id="spend" fill="#fff" font-size="45" font-family="Noto Sans, sans-serif">
+                    Ad Spends
+                  </text>
+                  <text text-anchor="middle" id="spend_value" data-name="spend_value" transform="translate(0 60)"
+                    fill="#fff" font-size="38" font-family="Noto Sans, sans-serif">{{ data.totals.0 }}</text>
+                </g>
+                <g id="spend_change_group" data-name="Group Spend Change" transform="translate(575 70)">
+                  <path id="spend_delta_indicator" data-name="spend_delta_indicator" d="M25,0,50,43H0Z"
+                    transform="rotate(90) translate(0 -35)"
+                    style="display: unset; transform: translate(50px, 30px) rotate(180deg); fill: rgb(255, 59, 59);" />
+                  <text text-anchor="middle" id="spend_delta_value" data-name="spend_delta_value" fill="#fff"
+                    font-size="30" font-family="Noto Sans, sans-serif" transform="translate(30 80)"
+                    style="display: unset;">-23.39%</text>
+                </g>
+              </g>
+              <g id="sale_group" data-name="Group Sale" transform="translate(1200 625)" class="clickable active"
+                data-group="sale" style="cursor: pointer;">
+                <rect id="Rectangle_sale" data-name="Rectangle 10" width="525" height="140" rx="10"
+                  transform="translate(170 25)" class="rev-primary-color shape-primary"
+                  style="fill: rgb(13, 110, 253); opacity: 1;" />
+                <g id="sale_value_group" data-name="Group Sale Value" transform="translate(420 80)">
+                  <text text-anchor="middle" id="sale" fill="#fff" font-size="45" font-family="Noto Sans, sans-serif">
+                    Ad Sales
+                  </text>
+                  <text text-anchor="middle" id="sale_value" data-name="sale_value" transform="translate(0 60)"
+                    fill="#fff" font-size="38" font-family="Noto Sans, sans-serif">{{data.totals.7 }}</text>
+                </g>
+                <g id="sale_change_group" data-name="Group Sale Change" transform="translate(575 70)">
+                  <path id="sale_delta_indicator" data-name="sale_delta_indicator" d="M25,0,50,43H0Z"
+                    transform="rotate(90) translate(0 -35)"
+                    style="display: unset; transform: translate(50px, 30px) rotate(180deg); fill: rgb(255, 59, 59);" />
+                  <text text-anchor="middle" id="sale_delta_value" data-name="sale_delta_value" fill="#fff"
+                    font-size="30" font-family="Noto Sans, sans-serif" transform="translate(30 80)"
+                    style="display: unset;">-30.94%</text>
+                </g>
+              </g>
+              <g id="acos_group" data-name="Group ACoS" class="clickable-inverse active" transform="translate(1517 81)"
+                data-group="acos" style="cursor: pointer;">
+                <g data-name="Ellipse 5" transform="translate(0 120)" fill="#fff"
+                  class="rev-primary-color-stroke shape-primary-inverse-stroke" stroke-width="5"
+                  style="stroke: rgb(13, 110, 253); fill: rgb(255, 255, 255); opacity: 0.6;">
+                  <circle cx="98" cy="98" r="98" stroke="none" />
+                  <circle cx="98" cy="98" r="95.5" fill="none" />
+                </g>
+                <g id="acos_value_group" data-name="Group Acos Value" transform="translate(100 180)">
+                  <text text-anchor="middle" id="acos" fill="#0d0d0d" font-size="30" font-family="Noto Sans, sans-serif"
+                    style="fill: rgb(45, 46, 45);">
+                    ACoS
+                  </text>
+                  <text text-anchor="middle" id="acos_value" data-name="acos_value" fill="#0d0d0d"
+                    transform="translate(10 40)" font-size="30" font-family="Noto Sans, sans-serif" font-weight="700"
+                    style="fill: rgb(45, 46, 45);">46.3%</text>
+                </g>
+                <g id="acos_change_group" data-name="Group Acos Change" transform="translate(85 230)">
+                  <path id="acos_delta_indicator" data-name="acos_delta_indicator"
+                    transform="rotate(90) translate(0 -35)" d="M16.5,0,33,28H0Z"
+                    style="display: unset; transform: translate(40px, 10px) rotate(120deg); fill: rgb(255, 59, 59);" />
+                  <text text-anchor="middle" id="acos_delta_value" data-name="acos_delta_value"
+                    transform="translate(20 60)" font-size="30" font-family="Noto Sans, sans-serif"
+                    style="display: unset; fill: rgb(45, 46, 45);">10.93%</text>
+                </g>
+              </g>
+              <g id="cvr_group" data-name="Group CVR" class="clickable-inverse active" transform="translate(250 520)"
+                data-group="cr" style="cursor: pointer;">
+                <g data-name="Ellipse 5" transform="translate(0 120)"
+                  class="rev-primary-color-stroke shape-primary-inverse-stroke" fill="#fff" stroke-width="5"
+                  style="stroke: rgb(13, 110, 253); fill: rgb(255, 255, 255); opacity: 0.6;">
+                  <circle cx="98" cy="98" r="98" stroke="none" />
+                  <circle cx="98" cy="98" r="95.5" fill="none" />
+                </g>
+                <g id="cvr_value_group" data-name="Group CVR Value" transform="translate(100 180)">
+                  <text text-anchor="middle" id="cvr" fill="#0d0d0d" font-size="30" font-family="Noto Sans, sans-serif"
+                    style="fill: rgb(45, 46, 45);">
+                    CVR
+                  </text>
+                  <text text-anchor="middle" id="cr_value" data-name="cr_value" fill="#0d0d0d"
+                    transform="translate(10 40)" font-size="30" font-family="Noto Sans, sans-serif" font-weight="700"
+                    style="fill: rgb(45, 46, 45);">{{ data.totals.3 }}%</text>
+                </g>
+                <g id="cvr_change_group" data-name="Group CVR Change" transform="translate(85 230)">
+                  <path id="cr_delta_indicator" data-name="cvr_delta_indicator" d="M16.5,0,33,28H0Z"
+                    transform="rotate(90) translate(0 -35)"
+                    style="display: unset; transform: translate(30px, 30px) rotate(180deg); fill: rgb(255, 59, 59);" />
+                  <text text-anchor="middle" id="cr_delta_value" data-name="cvr_delta_value"
+                    transform="translate(20 60)" font-size="30" font-family="Noto Sans, sans-serif"
+                    style="display: unset; fill: rgb(45, 46, 45);">-18.79%</text>
+                </g>
+              </g>
+              <g id="ctr_group" data-name="Group CTR" class="clickable-inverse active" transform="translate(25 310)"
+                data-group="ctr" style="cursor: pointer;">
+                <g data-name="Ellipse 5" transform="translate(0 120)"
+                  class="rev-primary-color-stroke shape-primary-inverse-stroke" fill="#fff" stroke-width="5"
+                  style="stroke: rgb(13, 110, 253); fill: rgb(255, 255, 255); opacity: 0.6;">
+                  <circle cx="98" cy="98" r="98" stroke="none" />
+                  <circle cx="98" cy="98" r="95.5" fill="none" />
+                </g>
+                <g id="ctr_value_group" data-name="Group CTR Value" transform="translate(100 180)">
+                  <text text-anchor="middle" id="ctr" fill="#0d0d0d" font-size="30" font-family="Noto Sans, sans-serif"
+                    style="fill: rgb(45, 46, 45);">
+                    CTR
+                  </text>
+                  <text text-anchor="middle" id="ctr_value" data-name="ctr_value" fill="#0d0d0d"
+                    transform="translate(10 40)" font-size="30" font-family="Noto Sans, sans-serif" font-weight="700"
+                    style="fill: rgb(45, 46, 45);">{{ data.totals.6 }}%</text>
+                </g>
+                <g id="ctr_change_group" data-name="Group CTR Change" transform="translate(85 230)">
+                  <path id="ctr_delta_indicator" data-name="ctr_delta_indicator" d="M16.5,0,33,28H0Z"
+                    transform="rotate(90) translate(0 -35)"
+                    style="display: unset; transform: translate(40px, 10px) rotate(120deg); fill: rgb(4, 186, 19);" />
+                  <text text-anchor="middle" id="ctr_delta_value" data-name="ctr_delta_value"
+                    transform="translate(20 60)" font-size="30" font-family="Noto Sans, sans-serif"
+                    style="display: unset; fill: rgb(45, 46, 45);">5%</text>
+                </g>
+              </g>
+              <g id="cpc_group" data-name="Group CPC" class="clickable-inverse active" transform="translate(1040 290)"
+                data-group="cpc" style="cursor: pointer;">
+                <g data-name="Ellipse 5" transform="translate(0 120)" fill="#fff"
+                  class="rev-primary-color-stroke shape-primary-inverse-stroke" stroke-width="5"
+                  style="stroke: rgb(13, 110, 253); fill: rgb(255, 255, 255); opacity: 0.6;">
+                  <circle cx="98" cy="98" r="98" stroke="none" />
+                  <circle cx="98" cy="98" r="95.5" fill="none" />
+                </g>
+                <g id="cpc_value_group" data-name="Group CPC Value" transform="translate(100 180)">
+                  <text text-anchor="middle" id="cpc" fill="#0d0d0d" font-size="30" font-family="Noto Sans, sans-serif"
+                    style="fill: rgb(45, 46, 45);">
+                    CPC
+                  </text>
+                  <text text-anchor="middle" id="cpc_value" data-name="cpc_value" fill="#0d0d0d"
+                    transform="translate(0 40)" font-size="30" font-family="Noto Sans, sans-serif" font-weight="700"
+                    style="fill: rgb(45, 46, 45);">25.1</text>
+                </g>
+                <g id="cpc_change_group" data-name="Group CPC Change" transform="translate(85 230)">
+                  <path id="cpc_delta_indicator" data-name="cpc_delta_indicator" d="M16.5,0,33,28H0Z"
+                    transform="rotate(90) translate(0 -35)"
+                    style="display: unset; transform: translate(40px, 10px) rotate(120deg); fill: rgb(255, 59, 59);" />
+                  <text text-anchor="middle" id="cpc_delta_value" data-name="cpc_delta_value"
+                    transform="translate(20 60)" font-size="30" font-family="Noto Sans, sans-serif"
+                    style="display: unset; fill: rgb(45, 46, 45);">0.48%</text>
+                </g>
+              </g>
+              <g id="aov_group" data-name="Group AOV" class="clickable-inverse active" transform="translate(1040 520)"
+                data-group="aov" style="cursor: pointer;">
+                <g data-name="Ellipse 5" transform="translate(0 120)" fill="#fff"
+                  class="rev-primary-color-stroke shape-primary-inverse-stroke" stroke-width="5"
+                  style="stroke: rgb(13, 110, 253); fill: rgb(255, 255, 255); opacity: 0.6;">
+                  <circle cx="98" cy="98" r="98" stroke="none" />
+                  <circle cx="98" cy="98" r="95.5" fill="none" />
+                </g>
+                <g id="aov_value_group" data-name="Group AOV Value" transform="translate(100 180)">
+                  <text text-anchor="middle" id="aov" fill="#0d0d0d" font-size="30" font-family="Noto Sans, sans-serif"
+                    style="fill: rgb(45, 46, 45);">
+                    AOV
+                  </text>
+                  <text text-anchor="middle" id="aov_value" data-name="aov_value" fill="#0d0d0d"
+                    transform="translate(0 40)" font-size="30" font-family="Noto Sans, sans-serif" font-weight="700"
+                    style="fill: rgb(45, 46, 45);">205.5</text>
+                </g>
+                <g id="aov_change_group" data-name="Group AOV Change" transform="translate(85 230)">
+                  <path id="aov_delta_indicator" data-name="aov_delta_indicator" d="M16.5,0,33,28H0Z"
+                    transform="rotate(90) translate(0 -35)"
+                    style="display: unset; transform: translate(40px, 10px) rotate(120deg); fill: rgb(4, 186, 19);" />
+                  <text text-anchor="middle" id="aov_delta_value" data-name="aov_delta_value"
+                    transform="translate(20 60)" font-size="30" font-family="Noto Sans, sans-serif"
+                    style="display: unset; fill: rgb(45, 46, 45);">11.55%</text>
+                </g>
+              </g>
+              <rect id="Rectangle_1" data-name="Rectangle 1" width="4" height="57" transform="translate(118 375)"
+                class="rev-primary-color" style="fill: rgb(13, 110, 253);" />
+              <rect id="Rectangle_2" data-name="Rectangle 2" width="4" height="50" transform="translate(347 595)"
+                class="rev-primary-color" style="fill: rgb(13, 110, 253);" />
+              <rect id="Rectangle_3" data-name="Rectangle 3" width="5" height="63"
+                transform="translate(277 502) rotate(90)" class="rev-primary-color" style="fill: rgb(13, 110, 253);" />
+              <rect id="Rectangle_4" data-name="Rectangle 4" width="5" height="100"
+                transform="translate(540 727) rotate(90)" class="rev-primary-color" style="fill: rgb(13, 110, 253);" />
+              <rect id="Rectangle_6" data-name="Rectangle 6" width="4" height="147"
+                transform="translate(1038 508) rotate(90)" class="rev-primary-color" style="fill: rgb(13, 110, 253);" />
+              <rect id="Rectangle_7" data-name="Rectangle 7" width="4" height="144"
+                transform="translate(1378 528) rotate(90)" class="rev-primary-color" style="fill: rgb(13, 110, 253);" />
+              <rect id="Rectangle_8" data-name="Rectangle 8" width="5" height="80"
+                transform="translate(1045 718) rotate(90)" class="rev-primary-color" style="fill: rgb(13, 110, 253);" />
+              <rect id="Rectangle_9" data-name="Rectangle 9" width="4" height="144"
+                transform="translate(1378 718) rotate(90)" class="rev-primary-color" style="fill: rgb(13, 110, 253);" />
+              <g id="Group_7" data-name="Group 7" transform="translate(31 68.854)">
+                <rect id="Rectangle_11" data-name="Rectangle 11" width="65" height="11"
+                  transform="translate(1552 349.146)" />
+                <rect id="Rectangle_12" data-name="Rectangle 12" width="65" height="12"
+                  transform="translate(1552 368.146)" />
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="col ">
+        <canvas id="bar"></canvas>
+      </div>
+    </div>
+
+
+    <div class="row row-cols-1 row-cols-sm-2 my-5">
+
+      <div class="col">
+        <div class="card">
+          <h4 class="title">Alerts</h4>
+          <div id="example-table">
+
+          </div>
+        </div>
+      </div>
+
+    <div class="col">
+      <div class="card">
+        <h4 class="title">Active Rules</h4>
+        <div id="example-table-2">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+
+    var tabledata = [
+      { id: 1, date: '2024-03-14', sku: 'B00X9U0CEI', title: "Trailytics RDX", type: "price", col: "red", to:248, from:239 },
+      { id: 2, date: '2024-03-15', sku: 'B00JDCSCEI', title: "Trailytics DYNAMITT", type: "price", col: "red", to:348, from:239 },
+      { id: 3, date: '2024-03-16', sku: 'B0DASAACEI', title: "Trailytics G-30", type: "price", col: "red", to:538, from:239 },
+      { id: 4, date: '2024-03-17', sku: 'B0FEFSACEI', title: "Trailytics OPERATOR", type: "price", col: "red", to:1008, from:239 },
+      { id: 5, date: '2024-03-18', sku: 'B00ASDACEI', title: "Trailytics VANDAL", type: "price", col: "red", to:2478, from:239 },
+      { id: 6, date: '2024-03-19', sku: 'B0FSACACEI', title: "Trailytics SPECTOR", type: "price", col: "red", to:448, from:239 },
+      { id: 7, date: '2024-03-20', sku: 'B00DADSCEI', title: "Trailytics MAGNUM", type: "price", col: "red", to:558, from:239 },
+      { id: 8, date: '2024-03-14', sku: 'B00VDSFCEI', title: "Trailytics SHERIFF", type: "price", col: "red", to:748, from:239 },
+      { id: 9, date: '2024-03-14', sku: 'B00DASFCEI', title: "Trailytics PHANTOM", type: "price", col: "red", to:148, from:239 },
+      { id: 10, date: '2024-03-14', sku:'B00SFE0CEI', title: "Trailytics JUDGE", type: "price", col: "red", to:999, from:239 },
+
+
+
+    ];
+
+    var table = new Tabulator("#example-table", {
+      data: tabledata,           //load row data from array
+      layout: "fitColumn",      //fit columns to width of table
+      // responsiveLayout: "scroll",  //hide columns that don't fit on the table
+      addRowPos: "top",          //when adding a new row, add it to the top of the table
+      history: true,             //allow undo and redo actions on the table
+      pagination: "local",       //paginate the data
+      paginationSize: 5,         //allow 7 rows per page of data
+      paginationCounter: "rows", //display count of paginated rows in footer
+      movableColumns: true,      //allow column order to be changed
+      initialSort: [             //set the initial sort order of the data
+        { column: "name", dir: "asc" },
+      ],
+      columnDefaults: {
+        tooltip: true,         //show tool tips on cells
+      },
+      columns: [                 //define the table columns
+        { title: "DATE", field: "date",width: 100, scope: 'col'},
+        { title: "SKU",width:140, field: "sku", hozAlign: "left",  scope: 'col' },
+        { title: "TITLE", field: "title", width: 150, hozAlign:"left", scope: 'col' },
+        { title: "TYPE", field: "type", width:100, hozAlign: "left", width: 100, scope: 'col'},
+        { title: "FROM", field: "from", width: 80, editor: "input", scope: 'col' },
+        { title: "TO", field: "to", width: 80, hozAlign: "left", scope: 'col' },
+   
+      ],
+
+    });
+
+
+
+var tabledata2 = [
+ { id: 1034, date: '2024-03-14', rule_nm:"TRIPLE", module: "Trailytics RDX", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+      { id: 1035, date: '2024-03-15', rule_nm:"TRIPLE", module: "Trailytics DYNAMITT", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+      { id: 1036, date: '2024-03-16', rule_nm:"TRIPLE", module: "Trailytics G-30", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+      { id: 1037, date: '2024-03-17', rule_nm:"TRIPLE", module: "Trailytics OPERATOR", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+      { id: 1038, date: '2024-03-18', rule_nm:"TRIPLE", module: "Trailytics VANDAL", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+    ]
+
+
+    var table2 = new Tabulator("#example-table-2", {
+      data: tabledata2,           //load row data from rule
+      layout: "fitColumns",      //fit columns to width of table
+      // responsiveLayout: "scroll",  //hide columns that don't fit on the table
+      addRowPos: "top",          //when adding a new row, add it to the top of the table
+      history: true,             //allow undo and redo actions on the table
+      pagination: "local",       //paginate the data
+      paginationSize: 5,         //allow 7 rows per page of data
+      paginationCounter: "rows", //display count of paginated rows in footer
+      movableColumns: true,      //allow column order to be changed
+      initialSort: [             //set the initial sort order of the data
+        { column: "name", dir: "asc" },
+      ],
+      columnDefaults: {
+        tooltip: true,         //show tool tips on cells
+      },
+      columns: [                 //define the table columns
+        { title: "#", field: "id",width: 100, scope: 'col', frozen:true},
+        { title: "RULE NAME", field:"rule_nm", width:150, hozAlign: "left",  scope: 'col' },
+        { title: "MODULE", field: "module", width: 150, hozAlign:"left", scope: 'col' },
+        { title: "RULE TYPE", field: "type", width:100, hozAlign: "left", scope: 'col'},
+        { title: "SCHEDULE", field: "sched", width: 100, editor: "input", scope: 'col' },
+        { title: "VIEW RULE", field: "vr", width: 200, hozAlign: "left", scope: 'col' },
+      ],
+    });
+  </script>
+</main>
+
+{% endblock %}

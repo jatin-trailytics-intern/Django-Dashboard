@@ -1,0 +1,185 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<style type="text/css">
+    
+.toggle {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.toggle-switch {
+  display: inline-block;
+  background: #ccc;
+  border-radius: 16px;
+  width: 38px;
+  height: 16px;
+  position: relative;
+  vertical-align: middle;
+  transition: background 0.25s;
+}
+.toggle-switch:before, .toggle-switch:after {
+  content: "";
+}
+.toggle-switch:before {
+  display: block;
+  background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: left 0.25s;
+}
+.toggle:hover .toggle-switch:before {
+  background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+.toggle-checkbox:checked + .toggle-switch {
+  background: #56c080;
+}
+.toggle-checkbox:checked + .toggle-switch:before {
+  left: 25px;
+}
+
+.toggle-checkbox {
+  position: absolute;
+  visibility: hidden;
+}
+
+.toggle-label {
+  margin-left: 5px;
+  position: relative;
+  top: 2px;
+}
+
+#editor{
+        padding: 5px 5px;
+        margin: 2px;
+        background-color: transparent;
+        border: solid;
+        border-color: #ccc;
+        border-width: .3px;
+    }
+
+</style>
+
+
+
+
+
+<main style="min-width:70vw; width: 90vw; padding-left: 8vw; margin-left:10vh ; ">
+    <div class="container-xl mx-5 ">
+    <div class="row row-cols-1 row-cols-sm-1 g-3 py-3 my-4" >
+    <div id="ads-table" >
+    </div>
+
+    </div>
+  </div>
+    
+</main>
+
+<script type="text/javascript">
+
+
+
+var Editbut = function(cell, formatterParams, onRendered){ //plain text value
+    var data = cell.getRow().getData();
+    console.log(data.campaign_name);
+    return "<button id='editor'> <svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='20' height='20' viewBox='0 0 24 24'><path d='M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L14.076172 5.9238281 z'></path></svg></button>";
+};
+
+
+
+var statusfield =function(cell, formatterParams, onRendered){ //plain text value
+    var data = cell.getRow().getData();
+    if(data.ad_status == "ENABLED"){
+    return '<label class="toggle"><input class="toggle-checkbox" type="checkbox" checked><div class="toggle-switch"></div></label>';
+    }
+    else{
+        return '<label class="toggle"><input class="toggle-checkbox" type="checkbox"><div class="toggle-switch"></div></label>';
+    }
+};
+
+
+
+var tabledata = [
+    {id:1, name:"Oli Bob", progress:12, gender:"male", rating:1, col:"red", dob:"19/02/1984", car:1},
+    {id:2, name:"Mary May", progress:1, gender:"female", rating:2, col:"blue", dob:"14/05/1982", car:true},
+    {id:3, name:"Christine Lobowski", progress:42, gender:"female", rating:0, col:"green", dob:"22/05/1982", car:"true"},
+    {id:4, name:"Brendon Philips", progress:100, gender:"male", rating:1, col:"orange", dob:"01/08/1980"},
+    {id:5, name:"Margret Marmajuke", progress:16, gender:"female", rating:5, col:"yellow", dob:"31/01/1999"},
+    {id:6, name:"Frank Harbours", progress:38, gender:"male", rating:4, col:"red", dob:"12/05/1966", car:1},
+];
+
+var table = new Tabulator("#ads-table", {
+    data:{{ campagin|safe }},           //load row data from array
+    layout:"fitdata",      //fit columns to width of table
+    responsiveLayout:false,  //hide columns that don't fit on the table
+    addRowPos:"top",          //when adding a new row, add it to the top of the table
+    history:true,             //allow undo and redo actions on the table
+    pagination:"local",       //paginate the data
+    paginationSize:8,         //allow 7 rows per page of data
+    paginationCounter:"rows", //display count of paginated rows in footer
+    rowFormatter:function(row){
+    var data = row.getData();
+    row.getElement().style.backgroundColor = "#fff";
+    row.getElement().style.border = "thin solid #aaa";},
+    movableColumns:true, 
+    initialSort:[ {column:"CAMPAIGN", dir:"asc"},],
+    columnDefaults:{tooltip:true,},
+    columns:[                 //define the table columns
+
+        {title:"Adgroup", field:"ad_group_name", editor:"input", hozAlign:'center', vertAlign:"center",  sorter:'string'},
+        {formatter:Editbut, hozAlign:"center", cellClick:function(e, cell){
+            let camp_name = prompt("Enter New Ad Group Name", " ")
+            cell.getRow().update({'ad_group_name': camp_name})
+        }
+        },
+
+
+
+
+        // {field:"Cost", hozAlign:"center", vertAlign:"center", editor:true, editorParams:{mask:"99999.99"}},
+        {title:"STATUS", formatter:statusfield, hozAlign:"center", vertAlign:"center",  cellClick:function(e, cell){  
+            const check = document.querySelector('.toggle-switch');
+            const forms = document.querySelector('#post_data');
+            var rowd = cell.getRow().getData()
+            const user_actions = ['USER_PAUSE', 'USER_RESUME']
+            var user_act = (rowd['ad_status']==='ENABLED') ? user_actions[0] : user_actions[1]
+            var returndata={'action': user_act,
+            'adProduct': rowd['campaign_type'],
+            'entity': 'campaign',
+            'id': rowd['campaign_id']};
+
+            forms[0].value = returndata['action'];
+            forms[1].value = returndata['adProduct'];
+            forms[2].value = returndata['entity'];
+            forms[3].value = returndata['id'];
+
+            forms[4].click();
+            // forms.reset();
+            console.log(e, returndata, check, forms)
+        }},
+
+        {title:"Campagin", field:"campaign_name",width:150, hozAlign:"center", editor:false},
+        {title:"TYPE", field:"campaign_type",width:150, hozAlign:"center", editor:false},
+        {title:"Impressions", field:"impressions",width:150, hozAlign:"center",  editor:false},
+        // {title:"Campaign Id", field:"campaign_id", hozAlign:"center", editor:false},
+        {title:"Spends", field:"spends", width:150,hozAlign:"center", editor:false},
+        {title:"Sales", field:"sales",width:150, hozAlign:"center", editor:false},
+        {title:"CTR", field:"ctr", width:150,hozAlign:"center", editor:false},
+        {title:"ROAS", field:"roas",width:150, hozAlign:"center", editor:false},
+        // {title:"CVR", field:"cvr", hozAlign:"center", editor:false}
+    ],
+});
+
+
+
+
+</script>
+{% endblock %}
