@@ -188,6 +188,7 @@ var table = new Tabulator("#main-table", {
             const check = document.querySelector('.toggle-switch');
             const forms = document.querySelector('#post_data');
             var rowd = cell.getRow().getData()
+            console.log(rowd)
             const user_actions = ['USER_PAUSE', 'USER_RESUME']
             var user_act = (rowd['cpstatus']==='ENABLED') ? user_actions[0] : user_actions[1]
             var returndata={'action': user_act,

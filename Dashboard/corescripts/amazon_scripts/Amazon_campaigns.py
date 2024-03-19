@@ -200,6 +200,8 @@ def amzcampagin():
             
             # Iterate over campaigns fetched from API calls
             for campaign_data in all_campaigns:
+                if campaign_data['campaign_type'] == 'SD' or campaign_data['campaign_type'] == 'SB':
+                    campaign_data['cpstatus'] = campaign_data['cpstatus'].upper()
                 campaign_id = campaign_data['campaign_id']
                 campaign_name = campaign_data['campaign_name']
                 campaign_key = (campaign_id, campaign_name)
@@ -222,40 +224,45 @@ def amzcampagin():
                         'aov': 0,
                         'ctr': 0.0
                     })
-            all_campaigns.append(row)
-            for campaign_data in all_campaigns:
-                campaign_data['impressions'] = int(campaign_data['impressions'])
-                campaign_data['clicks'] = int(campaign_data['clicks'])
-                campaign_data['spends'] = float(campaign_data['spends'])
-                campaign_data['sales'] = float(campaign_data['sales'])
-                campaign_data['orders'] = int(campaign_data['orders'])
-
-            sorted_campaigns = sorted(all_campaigns, key=lambda x: (
-                x['impressions'] > 0 or
-                x['clicks'] > 0 or
-                x['spends'] > 0 or
-                x['sales'] > 0 or
-                x['orders'] > 0 or
-                x['roas'] > 0 or
-                x['cvr'] > 0 or
-                x['cpc'] > 0 or
-                x['aov'] > 0 or
-                x['ctr'] > 0
-                ), reverse=True)
             
+            # Merge campaigns with the same ID and name
+            merged_campaigns = {}
+            for campaign_data in all_campaigns:
+                campaign_key = (campaign_data['campaign_id'], campaign_data['campaign_name'])
+                if campaign_key in merged_campaigns:
+                    # Add metrics to existing campaign
+                    merged_campaigns[campaign_key]['impressions'] += campaign_data['impressions']
+                    merged_campaigns[campaign_key]['clicks'] += campaign_data['clicks']
+                    merged_campaigns[campaign_key]['spends'] += campaign_data['spends']
+                    merged_campaigns[campaign_key]['sales'] += campaign_data['sales']
+                    merged_campaigns[campaign_key]['orders'] += campaign_data['orders']
+                    merged_campaigns[campaign_key]['roas'] += campaign_data['roas']
+                    merged_campaigns[campaign_key]['cvr'] += campaign_data['cvr']
+                    merged_campaigns[campaign_key]['cpc'] += campaign_data['cpc']
+                    merged_campaigns[campaign_key]['aov'] += campaign_data['aov']
+                    merged_campaigns[campaign_key]['ctr'] += campaign_data['ctr']
+                    
+                else:
+                    # Initialize merged campaign with metrics
+                    merged_campaigns[campaign_key] = campaign_data
+            
+            # Convert merged campaigns back to list
+            merged_campaigns_list = list(merged_campaigns.values())
+            
+            print(len(merged_campaigns_list))
+            for i in range(len(merged_campaigns_list)):
+                merged_campaigns_list[i]['views'] = merged_campaigns_list[i].pop("impressions")
+                merged_campaigns_list[i]['total_converted_revenue'] = merged_campaigns_list[i].pop("sales")
+                merged_campaigns_list[i]['total_converted_units'] = merged_campaigns_list[i].pop("orders")
+                merged_campaigns_list[i]['cpc'] = merged_campaigns_list[i].pop("cpc")
+                merged_campaigns_list[i]['CTR'] = merged_campaigns_list[i].pop("ctr")
+                merged_campaigns_list[i]['aov'] = merged_campaigns_list[i].pop("aov")
+                print(merged_campaigns_list[i])
+                merged_campaigns_list[i]['cpstatus'] = merged_campaigns_list[i].pop("cpstatus")
+                merged_campaigns_list[i]['campaign_type'] = merged_campaigns_list[i].pop("campaign_type")
+                print(merged_campaigns_list[i])
 
-
-            for i in range(len(sorted_campaigns)):
-                sorted_campaigns[i]['views'] = sorted_campaigns[i].pop("impressions")
-                sorted_campaigns[i]['total_converted_revenue'] = sorted_campaigns[i].pop("sales")
-                sorted_campaigns[i]['total_converted_units'] = sorted_campaigns[i].pop("orders")
-                idk = sorted_campaigns[i].pop("cvr")
-                sorted_campaigns[i]['cpc'] = sorted_campaigns[i].pop("cpc")
-                sorted_campaigns[i]['CTR'] = sorted_campaigns[i].pop("ctr")
-                sorted_campaigns[i]['aov'] = sorted_campaigns[i].pop("aov")
-                
-
-            return sorted_campaigns
+            return merged_campaigns_list
 
             elapsed_time = end_time - start_time
             print("Time taken to fetch data:", elapsed_time, "seconds")
@@ -273,5 +280,4 @@ def amzcampagin():
 
 
 
-# print(amzcampagin())
-
+print(amzcampagin())
