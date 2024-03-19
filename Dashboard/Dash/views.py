@@ -194,15 +194,15 @@ def content3(request):
 		sd, ed = '2024-02-13', '2024-02-14'
 		if request.POST:
 			inpu_date = request.POST.get('dates', None)
-			# if inpu_date == None:
-			# 	a = request.POST.get('para1', None)
-			# 	b = request.POST.get('para2', None)
-			# 	c = request.POST.get('para3', None)
-			# 	d = request.POST.get('para4', None)
-			# print(a, b, c, d)
-			print("form submitted")
-			print()
-			sd, ed = tuple(inpu_date.split('/'))
+			if inpu_date == None:
+				a = request.POST.get('para1', None)
+				b = request.POST.get('para2', None)
+				c = request.POST.get('para3', None)
+				d = request.POST.get('para4', None)
+			print(a, b, c, d)
+			os.system(f"amzpost\enable_disable_campaign.py --p1 {b.lower()}  --p2 {a} --p3 {c}")
+			# print("form submitted")
+			# sd, ed = tuple(inpu_date.split('/'))
 		campdata = amzcampagin()
 		return render(request, "amzcampagin.html", {'campagin':campdata, 'balance': bal, 'pf_op':platf, 'data':[]})
 

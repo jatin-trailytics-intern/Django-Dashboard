@@ -107,6 +107,7 @@ def update_campaign_status(api_type, campaign_id, status):
         print("Error message:", response.text)
 
 update_campaign_status(args.para1, args.para2, args.para3)
+print("I can be called")
 # for sd --> sd campaignid enabled/paused
 # for sb --> sb campaignid ENABLED/PAUSED
 # for sp --> sp campaignId ENABLED/PAUSED
