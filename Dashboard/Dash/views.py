@@ -9,6 +9,7 @@ from corescripts.main_pla_pca import *
 from corescripts.fk_walllet_balance import *
 from corescripts.amazon_scripts.Amazon_campaigns import *
 from corescripts.amazon_scripts.fetching_adgroup_data import *
+from corescripts.amazon_scripts.fetching_product_data import *
 import requests
 import os
 
@@ -205,6 +206,24 @@ def content3(request):
 			# sd, ed = tuple(inpu_date.split('/'))
 		campdata = amzcampagin()
 		return render(request, "amzcampagin.html", {'campagin':campdata, 'balance': bal, 'pf_op':platf, 'data':[]})
+
+
+
+def amazon_Product(request):
+	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today())
+	platf = request.session['platform']
+	bal = request.session["wallet_balance"]
+	if platf == 'Amazon':
+		productdata = []
+		
+		productdata = package_data(start_date= start_date, end_date= end_date)
+		# print(productdata)
+		
+		return render(request, "amzproduct.html", {'product': productdata, 'pf_op':platf, 'data':[]})
+	
+	else:
+		return redirect('404')
+
 
 
 
