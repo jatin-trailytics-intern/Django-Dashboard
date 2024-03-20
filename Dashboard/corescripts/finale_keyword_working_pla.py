@@ -107,7 +107,7 @@ def keywords_data(cookie_dict={}):
         store_path =  (x["data"]["getCampaignForId"]["adGroups"][0]["storePaths"])
         data  =  (x["data"]["getCampaignForId"]["adGroups"][0]["costVariation"]["placements"])
         status = x["data"]["getCampaignForId"]["adGroups"][0]["status"]
-        print(name)
+        # print(name)
         
 
 
@@ -155,7 +155,7 @@ def keywords_data(cookie_dict={}):
         cursor.execute(sql, (start_date, end_date, campaign_data))  # Execute the SQL query
         #print(placements)
         results = cursor.fetchall()
-        print("-------------------------------------------------------------------------------------------------------------------------")
+        # print("-------------------------------------------------------------------------------------------------------------------------")
         result_list = []
 
         for row in results:
@@ -163,23 +163,23 @@ def keywords_data(cookie_dict={}):
             for placement in placements:
                 if placement["campaignId"] == row[0] and placement["type"] == row[4]:
                     row_dict = {
-                        "Campaign ID": row[0],  
-                        "Campaign Name": row[1],
-                        "Ad Group ID": row[2],
-                        "AdGroup Name": row[3],
-                        "Placement Type": row[4],
-                        "Views": row[5],
-                        "Clicks": float(row[6]),
-                        "CTR": float(row[7]),
-                        "Average CPC (Cost Per Click)": float(row[8]),
-                        "CVR": row[9],
-                        "Ad Spend": float(row[10]),
-                        "Units Sold (Direct)": row[11],
-                        "Units Sold (Indirect)": row[12],
-                        "Direct Revenue": row[13],
-                        "Indirect Revenue": row[14],
-                        "ROI (Direct)": float(row[15]),
-                        "ROI (Indirect)": float(row[16]),
+                        "campaign_id": row[0],  
+                        "campaign_name": row[1],
+                        "adgroup_id": row[2],
+                        "adgroup_name": row[3],
+                        "placement_type": row[4],
+                        "views": row[5],
+                        "clicks": float(row[6]),
+                        "ctr": float(row[7]),
+                        "cpc": float(row[8]),
+                        "cvr": row[9],
+                        "adspend": float(row[10]),
+                        "usdir": row[11],
+                        "usind": row[12],
+                        "revenue": row[13],
+                        "Inrevenue": row[14],
+                        "roid": float(row[15]),
+                        "roii": float(row[16]),
                         "roas": row[17],
                         "troas": row[18],
                         "service":status
@@ -192,23 +192,23 @@ def keywords_data(cookie_dict={}):
             if not row_found:
             
                 row_dict = {
-                    "Campaign ID": row[0],  
+                    "campaign_id": row[0],  
                     "Campaign Name": row[1],
-                    "Ad Group ID": row[2],
-                    "AdGroup Name": row[3],
-                    "Placement Type": placement["type"],
-                    "Views": 0,
-                    "Clicks": 0,
-                    "CTR": 0,
-                    "Average CPC (Cost Per Click)": 0,
-                    "CVR": 0,
-                    "Ad Spend": 0,
-                    "Units Sold (Direct)": 0,
-                    "Units Sold (Indirect)": 0,
-                    "Direct Revenue": 0,
-                    "Indirect Revenue": 0,
-                    "ROI (Direct)": 0,
-                    "ROI (Indirect)": 0,
+                    "adgroup_id": row[2],
+                    "adgroup_name": row[3],
+                    "placement_type": placement["type"],
+                    "views": 0,
+                    "clicks": 0,
+                    "ctr": 0,
+                    "cpc": 0,
+                    "cvr": 0,
+                    "adspend": 0,
+                    "usdir": 0,
+                    "usind": 0,
+                    "revenue": 0,
+                    "Inrevenue": 0,
+                    "roid": 0,
+                    "roii": 0,
                     "roas": 0,
                     "troas": 0,
                      "service":status,
@@ -216,9 +216,10 @@ def keywords_data(cookie_dict={}):
                 result_list.append(row_dict)
         finale_output += result_list
         i-=1
-        print(finale_output)
+        # print(finale_output)
+    return finale_output[0]
 
 
 
 
-keywords_data(cookie_generator()[0])
+print(keywords_data(cookie_generator()[0]))
