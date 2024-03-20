@@ -327,12 +327,12 @@
 
 
 <script type="text/javascript">
-  console.log({{ product|safe }});
+  console.log({{ keyword|safe }});
 
 
 var selectfield =function(cell, formatterParams, onRendered){ //plain text value
     var data = cell.getRow().getData();
-    return '<label><input type="checkbox">' +  data.product_name +' </label>';
+    return  data.placement_type ;
 
 };
 
@@ -348,7 +348,7 @@ var selectfield =function(cell, formatterParams, onRendered){ //plain text value
 ];
 
 var table = new Tabulator("#main-table", {
-    data:{{ product|safe }},           //load row data from array
+    data:{{ keyword|safe }},           //load row data from array
     layout:"fitdata",      //fit columns to width of table
     responsiveLayout:false,  //hide columns that don't fit on the table
     addRowPos:"top",          //when adding a new row, add it to the top of the table
@@ -364,48 +364,23 @@ var table = new Tabulator("#main-table", {
 
   },
     movableColumns:true, 
-    initialSort:[ {column:"Product", dir:"asc"},],
+    initialSort:[ {column:"TARGET", dir:"asc"},],
     columnDefaults:{tooltip:true,},
     columns:[  
-        {title:"Product", formatter:selectfield,  width:400, hozAlign:"left", frozen:true, editor:false }, 
-        // {title:"Product", field:"product_name", width:300, hozAlign:"left", frozen:true, editor:false },
+        {title:"TARGET", formatter:selectfield, hozAlign:"left",editor:false, frozen:true}, 
+        {title:"BID", field:"required", width:250, hozAlign:"left", editor:false, frozen:true},
+        {title:"AD GROUP", field:"adgroup_name", width:250, hozAlign:"left", editor:false },
+        {title:"SPENDS", field:"adspend", width:250, hozAlign:"left", editor:false },
+        {title:"SALES", field:"usdir", width:250, hozAlign:"left", editor:false },
+        {title:"CTR", field:"ctr", width:250, hozAlign:"left", editor:false },
+        {title:"TOTAL AD SALES", field:"revenue", width:250, hozAlign:"left", editor:false},
+        {title:"TROAS", field:"troas", width:250, hozAlign:"left", editor:false },
+        {title:"ROAS", field:"roas", width:250, hozAlign:"left", editor:false },
+        {title:"TARGET TYPE", field:"category", width:250, hozAlign:"left", editor:false},
+        {title:"CAMPAIGN", field:"campaign_name", width:250, hozAlign:"left", editor:false},
+        {title:"CAMPAIGN TAGS", width:250, hozAlign:"left", editor:false},
 
-        {title:"AD Group", field:"ad_group_name", width:250, hozAlign:"left", editor:false},
-        {title:"Campaign", field:"campaign_name", hozAlign:"left", editor:false, formatter: function(cell) {
-            var originalValue = cell.getValue();
-            var maxLength = 30; // Adjust as needed
-            
-            if (originalValue.length > maxLength) {
-                return originalValue.substring(0, maxLength) + '...';
-            } else {
-                return originalValue;
-            }
-        }},
-        {title:"Campaign Type", field:"campaign_type", width:100, hozAlign:"center", editor:false},
-        {title:"Spends", field:"total_spends", width:100, hozAlign:"center", editor:false, formatter: function(cell) {
-            var originalValue = cell.getValue();
-            var roundedValue = Math.round(originalValue * 100) / 100;
-            
-            return roundedValue;
-        }, topCalc: "sum" },
-        {title:"Sales", field:"total_sales", width:120, hozAlign:"center",  editor:false, formatter: function(cell) {
-            var originalValue = cell.getValue();
-            var roundedValue = Math.round(originalValue * 100) / 100;
-            
-            return roundedValue;
-        }, topCalc: "sum" },
-        {title:"CTR", field:"ctr", width:100, hozAlign:"center", editor:false, formatter: function(cell) {
-            var originalValue = cell.getValue();
-            var roundedValue = Math.round(originalValue * 100) / 100;
-            
-            return roundedValue;
-        }, topCalc: "sum" },
-        {title:"ROAS", field:"roas", width:100, hozAlign:"center", editor:false, formatter: function(cell) {
-            var originalValue = cell.getValue();
-            var roundedValue = Math.round(originalValue * 100) / 100;
-            
-            return roundedValue;
-        }, topCalc: "sum" },
+
     ],
 
     

@@ -26,7 +26,8 @@ urlpatterns = [
     path('con1/', content1, name='con'),
     path('adgroup/', Adsgroup, name='adgroup'),
     path('con2/', content3, name='con2'),
-    path('product/', amazon_Product, name='product'), 
+    path('product/', amazon_Product, name='product'),
+    path('keywrd/', keywords, name='key'),  
     path('failed/', page_404, name='404')
 
 ]

@@ -182,7 +182,8 @@ def keywords_data(cookie_dict={}):
                         "roii": float(row[16]),
                         "roas": row[17],
                         "troas": row[18],
-                        "service":status
+                        "service":status,
+                        "category": "PLA"
                     }
                     row_dict["required"] = placement['absoluteCost']
                     result_list.append(row_dict)
@@ -212,12 +213,13 @@ def keywords_data(cookie_dict={}):
                     "roas": 0,
                     "troas": 0,
                      "service":status,
+                     "category":"PLA"
                 }
                 result_list.append(row_dict)
         finale_output += result_list
         i-=1
         # print(finale_output)
-    return finale_output[0]
+    return finale_output
 
 
 
