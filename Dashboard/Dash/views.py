@@ -179,14 +179,14 @@ def content3(request):
 				b = request.POST.get('para2', None)
 				c = request.POST.get('para3', None)
 				d = request.POST.get('para4', None)
-				if c =="":
-					print(str(a), str(b))
-					os.system(f"universal_pla.py --p1 {a.replace(' ','-')} --p2 {b}")
-				elif a=="":
-					os.system(f"universal_pla.py --p2 {b} --p3 {c}")
-				else:
-					pass
-					os.system(f"pause_resume_hip.py --p1 {a} --p2 {b} --p3 {c} --p4 {d} ")
+				# if c =="":
+				# 	print(str(a), str(b))
+				# 	os.system(f"universal_pla.py --p1 {a.replace(' ','-')} --p2 {b}")
+				# elif a=="":
+				# 	os.system(f"universal_pla.py --p2 {b} --p3 {c}")
+				# else:
+				# 	pass
+				# 	os.system(f"pause_resume_hip.py --p1 {a} --p2 {b} --p3 {c} --p4 {d} ")
 			start_date, end_date = tuple(inpu_date.split('/'))
 			campdata = payloadcampagins(cookie, start_date=start_date, end_date=end_date)
 		return render(request, "content2.html", {'campagin':campdata, 'pf_op':platf, 'data':[]})
