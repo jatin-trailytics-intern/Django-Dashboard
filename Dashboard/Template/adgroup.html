@@ -326,7 +326,7 @@
 
 
 
-    return "<div class='' style='display:flex; justify-content: space-between; position: relative; width:270px' ><a style=' width:200px;  overflow:hidden;  text-overflow: ellipsis;'>" + data.ad_group_name + "</a> <button id='editor'> <svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='18' height='18' viewBox='0 0 24 24'><path d='M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L14.076172 5.9238281 z'></path></svg></button></div> <div style= ></div>" + weirdo;
+    return "<div class='' style='display:flex; justify-content: space-between; position: relative; width:270px' ><a href='https://www.google.com/' style=' text-decoration:none; width:200px;  overflow:hidden;  text-overflow: ellipsis;'>" + data.ad_group_name + "</a> <button id='editor'> <svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='18' height='18' viewBox='0 0 24 24'><path d='M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L14.076172 5.9238281 z'></path></svg></button></div> <div style= ></div>" + weirdo;
   };
 
   var datefield = function (cell, formatterParams, onRendered) {
@@ -420,20 +420,13 @@
               const check = document.querySelector('.toggle-switch');
               const forms = document.querySelector('#post_data');
               var rowd = cell.getRow().getData()
-              const user_actions = ['USER_PAUSE', 'USER_RESUME']
-              var user_act = (rowd['state'] === 'ENABLED') ? user_actions[0] : user_actions[1]
-              var returndata = {
-                'action': user_act,
-                'adProduct': rowd['campaign_type'],
-                'entity': 'add_group_data',
-                'id': rowd['ad_group_id']
-              };
-
-              forms[0].value = returndata['action'];
-              forms[1].value = returndata['adProduct'];
-              forms[2].value = returndata['entity'];
-              forms[3].value = returndata['id'];
-
+              var action = rowd['state']=="PAUSED" ? "ENABLED": "PAUSED";
+              action = rowd['campaign_type'] == 'SD' ? action.toLowerCase(): action;
+              console.log(rowd)
+              forms[0].value = rowd['campaign_id']
+              forms[1].value = rowd['campaign_type']
+              forms[2].value = action
+              forms[3].value = null
               forms[4].click();
               // forms.reset();
               console.log(e, returndata, check, forms)

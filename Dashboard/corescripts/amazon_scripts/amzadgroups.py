@@ -279,4 +279,4 @@ GROUP BY ad_group_id, ad_group_name, campaign_id
             print("MySQL connection is closed")
 
 
-# print(adsGroupData())
+# print(adsGroupData()[0])
