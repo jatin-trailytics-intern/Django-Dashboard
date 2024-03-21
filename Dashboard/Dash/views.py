@@ -8,8 +8,9 @@ from corescripts.pca import *
 from corescripts.main_pla_pca import *
 from corescripts.fk_walllet_balance import *
 from corescripts.amazon_scripts.Amazon_campaigns import *
-from corescripts.amazon_scripts.fetching_adgroup_data import *
+from corescripts.amazon_scripts.amzadgroups import *
 from corescripts.amazon_scripts.fetching_product_data import *
+
 import requests
 import os
 
@@ -253,15 +254,18 @@ def enter(request):
 
 
 
+
+
+
 def Adsgroup(request):
 	platf = request.session['platform']
+	bal = request.session["wallet_balance"]
 	if platf == 'Amazon':
-		# campdata =[{'campaign_id': '511142057663048', 'campaign_name': '50 grams x 4 jars & Coffee kit sp mt', 'ad_group_id': '296158477781581', 'ad_group_name': '50 grams x 4 jars sp mt', 'impressions': '7927', 'clicks': '42', 'spends': '1062.32', 'sales': '1706.67', 'orders': '5', 'campaign_type': 'SP', 'date': '2024-02-10', 'ad_status': 'ENABLED', 'roas': 40.635000000000005}]
-		campdata = adgroups_data()
-		return render(request, "adgroup.html", {'campagin':campdata, 'pf_op':platf})
-	else:
-		return redirect(page_404)
+		ads_grp_data = adsGroupData()
 
+		return render(request, "adgroup.html", {'add_group_data':ads_grp_data, 'pf_op':platf, 'data':[], 'balance': bal})
+	else:
+		return redirect('404')
 
 
 
