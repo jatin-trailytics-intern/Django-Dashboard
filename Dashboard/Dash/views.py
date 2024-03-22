@@ -6,11 +6,18 @@ from corescripts.channel import *
 from corescripts.pla import *
 from corescripts.pca import *
 from corescripts.main_pla_pca import *
+from corescripts.fproductv import *
 from corescripts.fk_walllet_balance import *
-from corescripts.amazon_scripts.campaign_data import *
-from corescripts.amazon_scripts.fetching_adgroup_data import *
+from corescripts.amazon_scripts.Amazon_campaigns import *
+from corescripts.amazon_scripts.amzadgroups import *
+from corescripts.amazon_scripts.fetching_product_data import *
 import requests
 import os
+
+
+
+def enter(request):
+	return redirect(amazon_Home)
 
 
 
@@ -19,6 +26,7 @@ def amazon_Home(request, *args, **kwargs):
 	""" Sample Api response that needs to be rendered at frontend. """
 	start_date, end_date = '', ''
 	request.session["platform"] = "Amazon"
+	request.session["wallet_balance"] = "N/A"
 	if request.POST:
 		print("form submitted")
 		inpu_date = request.POST.get('dates', None)
@@ -40,9 +48,10 @@ def amazon_Home(request, *args, **kwargs):
 	           }
 
 	platf = request.session['platform']
+	bal = request.session['wallet_balance']
 	totals = [ sum([int(float(j)) for j in amzdata[i]]) for i in amzdata.keys() if i !='date']
 	amzdata['totals'] = totals
-	return render(request, "Home_new.html", { 'pf_op':platf, 'data':amzdata })
+	return render(request, "Home_new.html", { 'pf_op':platf, 'balance':bal, 'data':amzdata })
 
 
 
@@ -50,7 +59,6 @@ def amazon_Home(request, *args, **kwargs):
 
 def flipk_Home(request):
 	""" Sample Api response that needs to be rendered at frontend. """
-
 	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today())
 	if request.POST:
 		print("form submitted")
@@ -89,76 +97,27 @@ def flipk_Home(request):
 	datapla['totals'][9] = float(datapla['totals'][9]/len(datapla['roi'])) if datapla['totals'][9] !=0 else 0
 	print(datapla)
 
-
-
 	return render(request, "Home_new.html", { 'pf_op':platf, 'balance':bal, 'data':datapla})
 
 
 
 
-
-def content1(request):
-	# cookie = cookie_generator()  #Dangerouse method do not call frequently.
-	# print(cookie[1])
-	# if cookie[1] == 200:
-	# 	c_payload(cookie[0])
-
+def Portfolio(request):
 	row_list = []
-	f = records.objects.all()
-	for i in f:
-		cont = i.__dict__
-		cont.pop("_state")
-		cont.pop("id")
-		row_list.append(cont)
-
-	cntry = []
-	intens = []
-	for f in records.objects.raw("SELECT * FROM Dash_records WHERE intensity > 1 GROUP BY country"):
-		cntry.append(f.country) 
-		intens.append(f.intensity)
-
-	topic = []
-	likelihood = []	
-	for f in records.objects.raw("SELECT * FROM Dash_records WHERE likelihood > 0 GROUP BY topic"):
-		topic.append(f.topic) 
-		likelihood.append(f.likelihood)
-
-		likelihood = likelihood[:20]
-		topic = topic[:20]
-		
-	region = []
-	relev = []
-	for f in records.objects.raw("SELECT * FROM Dash_records WHERE relevance > 0 GROUP BY region "):
-		region.append(f.region)
-		relev.append(f.relevance)
-
-
-	inte = []
-	imp = []
-	rel = []
-	source = []
-
-	for f in records.objects.raw("SELECT * FROM Dash_records WHERE intensity > 0 AND impact > 0 AND relevance > 0"):
-		inte.append(f.intensity)
-		imp.append(f.impact)
-		rel.append(f.relevance)
-		source.append(f.source)
-
+	bal = request.session["wallet_balance"] 
 	platf = request.session['platform']
-	return render(request, "content3.html", { "data": row_list, 'pf_op':platf,
-										   "cntry":json.dumps(cntry), "intens":json.dumps(intens),
-										   "tp":json.dumps(topic), "like":json.dumps(likelihood), 
-										   "reg":json.dumps(region), "rel":json.dumps(relev), 
-										   "int": json.dumps(inte), "imp":json.dumps(imp), 
-										   "rel":json.dumps(rel), "src":json.dumps(source)
-										   	})
+	return render(request, "content3.html", { "data": row_list, 'balance':bal, 'pf_op':platf, })
 
 
-def content3(request):
+
+
+
+
+def Campagins(request):
 	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today())
 	platf = request.session['platform']
-	bal = request.session["wallet_balance"]
 	if platf == 'Flipkart':
+		bal = request.session["wallet_balance"]
 		campdata = []
 		campdata =[{'campaign_status': 'LIVE', 'campaign_name': 'new giftsets', 'campaign_start_and_end_date': "15 Feb '24 - Till budget ends", 'campaign_type': 'BRAND_PCA', 'campaign_id': 'P0XSUPVCJKA7', 'campaign_budget': '400000.0', 'CTR': '0.0123', 'Cost': '190164.0000', 'total_converted_revenue': '594942.0000', 'clicks': '27188', 'total_converted_units': '1410', 'roi': '3.1286', 'views': '2211218', 'cvr': '0.0519', 'Actions': '["AUDIT_TRAIL","BCAP_RESUME","COMPLETE","ABORT","COMMIT","ARCARIUS_PAUSE","USER_PAUSE","EDIT","ARCARIUS_RESUME","BCAP_PAUSE"]'},
 				   {'campaign_status': 'LIVE', 'campaign_name': 'premium perf', 'campaign_start_and_end_date': "08 Dec '23 - Till budget ends", 'campaign_type': 'BRAND_PLA', 'campaign_id': 'KVACVQ6WVTD6', 'campaign_budget': '1200000.0', 'CTR': '0.0147', 'Cost': '58560.0000', 'total_converted_revenue': '155137.0000', 'clicks': '8860', 'total_converted_units': '275', 'roi': '2.6492', 'views': '601703', 'cvr': '0.0310', 'Actions': '["AUDIT_TRAIL","BCAP_RESUME","COMPLETE","ABORT","COMMIT","ARCARIUS_PAUSE","USER_PAUSE","EDIT","ARCARIUS_RESUME","BCAP_PAUSE"]'},
@@ -179,44 +138,77 @@ def content3(request):
 				b = request.POST.get('para2', None)
 				c = request.POST.get('para3', None)
 				d = request.POST.get('para4', None)
-				if c =="":
-					print(str(a), str(b))
-					os.system(f"universal_pla.py --p1 {a.replace(' ','-')} --p2 {b}")
-				elif a=="":
-					os.system(f"universal_pla.py --p2 {b} --p3 {c}")
-				else:
-					pass
-					os.system(f"pause_resume_hip.py --p1 {a} --p2 {b} --p3 {c} --p4 {d} ")
+				# if c =="":
+				# 	print(str(a), str(b))
+				# 	os.system(f"universal_pla.py --p1 {a.replace(' ','-')} --p2 {b}")
+				# elif a=="":
+				# 	os.system(f"universal_pla.py --p2 {b} --p3 {c}")
+				# else:
+				# 	pass
+				# 	os.system(f"pause_resume_hip.py --p1 {a} --p2 {b} --p3 {c} --p4 {d} ")
 			start_date, end_date = tuple(inpu_date.split('/'))
 			campdata = payloadcampagins(cookie, start_date=start_date, end_date=end_date)
-		return render(request, "content2.html", {'campagin':campdata, 'pf_op':platf, 'data':[]})
+		return render(request, "flipcamp.html", {'campagin':campdata, 'balance': bal, 'pf_op':platf, 'data':[]})
 	else:
+		bal = request.session["wallet_balance"]
 		sd, ed = '2024-02-13', '2024-02-14'
 		if request.POST:
-			print("form submitted")
 			inpu_date = request.POST.get('dates', None)
-			sd, ed = tuple(inpu_date.split('/'))
+			if inpu_date == None:
+				a = request.POST.get('para1', None)
+				b = request.POST.get('para2', None)
+				c = request.POST.get('para3', None)
+				d = request.POST.get('para4', None)
+			print(a, b, c, d)
+			os.system(f"amzpost\enable_disable_campaign.py --p1 {b.lower()}  --p2 {a} --p3 {c}")
+			# print("form submitted")
+			# sd, ed = tuple(inpu_date.split('/'))
 		campdata = amzcampagin()
 		return render(request, "amzcampagin.html", {'campagin':campdata, 'balance': bal, 'pf_op':platf, 'data':[]})
 
 
 
-
-
-
-def enter(request):
-	return redirect(amazon_Home)
-
-
-
 def Adsgroup(request):
 	platf = request.session['platform']
+	bal = request.session["wallet_balance"]
 	if platf == 'Amazon':
-		# campdata =[{'campaign_id': '511142057663048', 'campaign_name': '50 grams x 4 jars & Coffee kit sp mt', 'ad_group_id': '296158477781581', 'ad_group_name': '50 grams x 4 jars sp mt', 'impressions': '7927', 'clicks': '42', 'spends': '1062.32', 'sales': '1706.67', 'orders': '5', 'campaign_type': 'SP', 'date': '2024-02-10', 'ad_status': 'ENABLED', 'roas': 40.635000000000005}]
-		campdata = adgroups_data()
-		return render(request, "adgroup.html", {'campagin':campdata, 'pf_op':platf})
+		ads_grp_data = adsGroupData()
+
+		return render(request, "adgroup.html", {'add_group_data':ads_grp_data, 'pf_op':platf, 'data':[], 'balance': bal})
 	else:
-		return redirect(page_404)
+		return redirect('404')
+
+
+
+
+def keywords(request):
+	platf = request.session['platform']
+	bal = request.session["wallet_balance"]
+	keyword = [{'campaign_id': '8VN5DXLKJN8A', 'campaign_name': 'Acne Patch KW PLA', 'adgroup_id': 'YZFM9CTUO7TP', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'BROWSE_PAGE_TOP_SLOT', 'views': 19, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': '8VN5DXLKJN8A', 'campaign_name': 'Acne Patch KW PLA', 'adgroup_id': 'YZFM9CTUO7TP', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'SEARCH_PAGE', 'views': 0, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': '8VN5DXLKJN8A', 'campaign_name': 'Acne Patch KW PLA', 'adgroup_id': 'YZFM9CTUO7TP', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'HOME_PAGE', 'views': 0, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': '8VN5DXLKJN8A', 'campaign_name': 'Acne Patch KW PLA', 'adgroup_id': 'YZFM9CTUO7TP', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'BROWSE_PAGE_TOP_SLOT', 'views': 16, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': '8VN5DXLKJN8A', 'campaign_name': 'Acne Patch KW PLA', 'adgroup_id': 'YZFM9CTUO7TP', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'PRODUCT_PAGE', 'views': 80, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'PRODUCT_PAGE', 'views': 221, 'clicks': 6.0, 'ctr': 2.7149, 'cpc': 2.2, 'cvr': 0, 'adspend': 13.2, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'SEARCH_PAGE_TOP_SLOT', 'views': 0, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'SEARCH_PAGE', 'views': 120, 'clicks': 2.0, 'ctr': 1.6667, 'cpc': 2.2, 'cvr': 0, 'adspend': 4.4, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'BROWSE_PAGE_TOP_SLOT', 'views': 11, 'clicks': 2.0, 'ctr': 18.1818, 'cpc': 2.2, 'cvr': 0, 'adspend': 4.4, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'BROWSE_PAGE_TOP_SLOT', 'views': 33, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'HOME_PAGE', 'views': 0, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}]
+	return render(request, "flipk_key.html", {'keyword': keyword, 'pf_op':platf, 'balance': bal })
+
+
+
+
+
+
+def Product(request):
+	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today())
+	platf = request.session['platform']
+	bal = request.session["wallet_balance"]
+	if platf == 'Amazon':
+		productdata = []
+		
+		productdata = package_data(start_date= start_date, end_date= end_date)
+		# print(productdata)
+		
+		return render(request, "amzproduct.html", {'product': productdata, 'balance': bal, 'pf_op':platf, 'data':[]})
+	
+	else:
+		productdata = flipk_payload()
+		print(productdata)
+		# return None
+		return render(request, "fliproduct.html", {'product': productdata, 'balance': bal, 'pf_op':platf, 'data':[]})
 
 
 

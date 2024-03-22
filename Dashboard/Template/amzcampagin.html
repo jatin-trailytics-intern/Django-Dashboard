@@ -91,7 +91,7 @@
 
 <main style="min-width:70vw; width: 90vw; padding-left: 8vw; margin-left:10vh ; ">
     <div class="container-xl mx-5 ">
-    <form action="." method="POST" id="post_data" hidden>
+    <form action="." method="POST" id="post_data" hidden >
 
         <input type="text" name="para1">
         <input type="text" name="para2">
@@ -111,7 +111,7 @@
 </main>
 
 <script type="text/javascript">
-  console.log({{ campagin|safe }});
+  // console.log({{ campagin|safe }});
 
 
 
@@ -175,7 +175,7 @@ var table = new Tabulator("#main-table", {
     columnDefaults:{tooltip:true,},
     columns:[  
 
-        {title:"CAMPAIGN", field:"campaign_name", editor:"input", hozAlign:'center',frozen:true, vertAlign:"center",  sorter:'string'},
+        {title:"CAMPAIGN", field:"campaign_name", editor:"input", hozAlign:'center',frozen:true, vertAlign:"center",  sorter:'string', headerFilter:"input"},
         {formatter:Editbut, hozAlign:"center", frozen:true, cellClick:function(e, cell){
             let camp_name = prompt("Enter New Campaign Name", " ")
             cell.getRow().update({'campaign_name': camp_name})
@@ -188,21 +188,16 @@ var table = new Tabulator("#main-table", {
             const check = document.querySelector('.toggle-switch');
             const forms = document.querySelector('#post_data');
             var rowd = cell.getRow().getData()
-            const user_actions = ['USER_PAUSE', 'USER_RESUME']
-            var user_act = (rowd['cpstatus']==='ENABLED') ? user_actions[0] : user_actions[1]
-            var returndata={'action': user_act,
-            'adProduct': rowd['campaign_type'],
-            'entity': 'campaign',
-            'id': rowd['campaign_id']};
-
-            forms[0].value = returndata['action'];
-            forms[1].value = returndata['adProduct'];
-            forms[2].value = returndata['entity'];
-            forms[3].value = returndata['id'];
-
+            var action = rowd['cpstatus']=="PAUSED" ? "ENABLED": "PAUSED";
+            action = rowd['campaign_type'] == 'SD' ? action.toLowerCase(): action;
+            console.log(rowd)
+            forms[0].value = rowd['campaign_id']
+            forms[1].value = rowd['campaign_type']
+            forms[2].value = action
+            forms[3].value = null
             forms[4].click();
             // forms.reset();
-            console.log(e, returndata, check, forms)
+            // console.log(e, returndata, check, forms)
         }},
 
         {title:"TYPE", field:"campaign_type", hozAlign:"center", editor:false, frozen:true},

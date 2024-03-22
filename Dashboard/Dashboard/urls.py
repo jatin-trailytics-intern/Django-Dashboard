@@ -23,9 +23,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('amzon/', amazon_Home, name='amzhome'),
     path('flipkart/', flipk_Home, name='flipkhome'), 
-    path('con1/', content1, name='con'),
+    path('portf/', Portfolio, name='portfolio'),
+    path('Campagins/', Campagins, name='camp'),
+    path('product/', Product, name='product'),
     path('adgroup/', Adsgroup, name='adgroup'),
-    path('con2/', content3, name='con2'),
+    path('keywrd/', keywords, name='key'),  
     path('failed/', page_404, name='404')
 
 ]

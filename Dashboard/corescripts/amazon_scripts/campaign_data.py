@@ -214,7 +214,7 @@ def amzcampagin():
                 
 
             print(sorted_campaigns[10])
-            return sorted_campaigns
+            return sorted_campaigns[0]
 
 
             elapsed_time = end_time - start_time
@@ -229,3 +229,7 @@ def amzcampagin():
             cursor.close()
             connection.close()
             print("MySQL connection is closed")
+
+
+
+print(amzcampagin())
