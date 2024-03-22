@@ -182,7 +182,7 @@ button:hover{
         </a>
       </li>
       <li class="nav-item p-1">
-        <a class="nav-link text-white fs-6" href="{% url 'rule' %}">
+        <a class="nav-link text-white fs-6" href="#">
           <span data-feather="file-text"></span>
           Rules
         </a>
@@ -243,7 +243,7 @@ button:hover{
 <form action="." method="POST" id="frm">
 {% csrf_token %}
 <div class="main-header p-2 px-3 d-sm-flex flex-row justify-content-between align-items-center" style="border-bottom:solid; border-color: #f2f2f2;">
-<h4 class="flex-grow-1 mb-md-0" data-testid="title">Performance Overview</h4>
+<h4 class="flex-grow-1 mb-md-0" data-testid="title">Rules</h4>
 <button type="button" class="ant-btn css-1jr9qlj ant-btn-default card ms-1 mx-2" style="display: unset; padding: 3px 8.5px; border-radius: 6px;"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" style="font-size: 16px;" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"></path></svg></button>
 <button type="button" class="ant-btn css-1jr9qlj ant-btn-default btn btn-primary me-2" style="display: none;"><span>Rules Summary</span></button>
 <div class="dropdown">
@@ -268,81 +268,9 @@ button:hover{
 </select>
 </div>
 
-<div class="dropdown">
-<div id="reportrange">
-    <i class="fa fa-calendar"><svg 
- width="16.000000pt" height="16.000000pt" viewBox="0 0 16.000000 16.000000"
->
 
-<g transform="translate(0.000000,16.000000) scale(0.100000,-0.100000)"
-fill="#0e88ff" stroke="none">
-<path d="M20 142 c-6 -2 -10 -30 -10 -63 l0 -59 65 0 65 0 0 60 c0 33 -3 60
--7 61 -37 3 -105 3 -113 1z m110 -23 c0 -5 -25 -9 -55 -9 -30 0 -55 4 -55 9 0
-5 25 9 55 9 30 0 55 -4 55 -9z m0 -54 l0 -35 -55 0 -55 0 0 35 0 35 55 0 55 0
-0 -35z"/>
-</g>
-</svg>
-</i>&nbsp;
-    <span style=""></span>
-    <i class="fa fa-caret-down"></i>
-    <input type="text" name="dates" onkeydown="return false"  style="padding:5px;" hidden /> 
-</div>
-<input type="submit" name="sub" value="submit" style="background:transparent; color: limegreen; box-shadow: none;"  />
-
-<script type="text/javascript">
-  $(function() {
-
-    var start = moment().subtract(6, 'days');
-    var end = moment();
-
-    function cb(start, end) {
-        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-        $('#reportrange input').val(start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD'));
-
-    }
-
-    $('#reportrange').daterangepicker({
-        startDate: start,
-        endDate: end,
-        ranges: {
-           'Today': [moment(), moment()],
-           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-           'This Month': [moment().startOf('month'), moment().endOf('month')],
-           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        }
-    }, cb);
-
-    cb(start, end);
-});
-  
-</script>
-</div>
 </div>
 </form>
-<div class="sub-header p-2 d-sm-flex flex-row justify-content-between align-items-center text-black"><div class="clearfix" id="savedFilters"><span class="selectedFilters float-none float-sm-start ellipsis"><span class="selected-filter badge border ms-1 mt-1 position-relative" id="filter-element" style="width: 150px; padding: 7px; font-size:11px; background:#DDD; color: #222;">report_date = Last 7 Days</span></span><div style="display: inline-block; margin-top: 0.4rem;"><div></div><div><div class="card shadow" id="filters-drop-down"></div></div></div></div><div class="text-center text-sm-start" style="height: 100%;"><div class="d-flex"></div></div></div>
-</div>
-
-<div class="tabs-exportbtn__container " style="margin-left: 16vw; margin-top:10px;  margin-bottom: 5px;">
-
-<a id="overview-tab" class="tabs " href="{% url 'amzhome' %}"><span>Overview&nbsp;</span></a>
-
-<a id="portfolios-tab" class=" tabs" href="{% url 'portfolio' %}"><span>Portfolios&nbsp;<span id="portfolios-badge"><span class="mx-1 rounded-pill badge bg-dark">7</span></span></span></a>
-
-<a id="campaigns-tab" class=" tabs"  href="{% url 'camp' %}"><span>Campaigns&nbsp;<span id="campaigns-badge"><span class="mx-1 rounded-pill badge bg-dark">141</span></span></span></a>
-
-<a id="adgroups-tab" class="tabs " href="{% url 'adgroup' %}"><span>Adgroups&nbsp;<span id="adgroups-badge"><span class="mx-1 rounded-pill badge bg-dark">59</span></span></span></a>
-
-<a id="keywords-tab" class=" tabs" href="{% url 'key' %}"><span>Keywords&nbsp;<span id="keywords-badge"><span class="mx-1 rounded-pill badge bg-dark">670</span></span></span></a>
-
-<a id="products-tab" class="tabs " href="{% url 'product' %}"><span>Products&nbsp;<span id="products-badge"><span class="mx-1 rounded-pill badge bg-dark">45</span></span></span></a></div>
-
-
-
-</div>
-
-
 
   {% block content %}
 

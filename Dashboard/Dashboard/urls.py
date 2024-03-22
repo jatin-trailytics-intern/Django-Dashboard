@@ -27,6 +27,7 @@ urlpatterns = [
     path('Campagins/', Campagins, name='camp'),
     path('product/', Product, name='product'),
     path('adgroup/', Adsgroup, name='adgroup'),
+    path('Rules/', Rule, name='rule'), 
     path('keywrd/', keywords, name='key'),  
     path('failed/', page_404, name='404')
 

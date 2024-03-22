@@ -213,6 +213,11 @@ def Product(request):
 
 
 
+def Rule(request, *args, **Kwargs):
+	platf = request.session['platform']
+	bal = request.session["wallet_balance"]
+	return render(request, "later.html", { 'balance': bal, 'pf_op':platf,})
+
 
 
 def page_404(request):
