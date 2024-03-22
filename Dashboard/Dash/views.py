@@ -22,6 +22,7 @@ def amazon_Home(request, *args, **kwargs):
 	""" Sample Api response that needs to be rendered at frontend. """
 	start_date, end_date = '', ''
 	request.session["platform"] = "Amazon"
+	request.session["wallet_balance"] = "N/A"
 	if request.POST:
 		print("form submitted")
 		inpu_date = request.POST.get('dates', None)
@@ -43,9 +44,10 @@ def amazon_Home(request, *args, **kwargs):
 	           }
 
 	platf = request.session['platform']
+	bal = request.session['wallet_balance']
 	totals = [ sum([int(float(j)) for j in amzdata[i]]) for i in amzdata.keys() if i !='date']
 	amzdata['totals'] = totals
-	return render(request, "Home_new.html", { 'pf_op':platf, 'data':amzdata })
+	return render(request, "Home_new.html", { 'pf_op':platf, 'balance':bal, 'data':amzdata })
 
 
 
@@ -53,7 +55,6 @@ def amazon_Home(request, *args, **kwargs):
 
 def flipk_Home(request):
 	""" Sample Api response that needs to be rendered at frontend. """
-
 	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today())
 	if request.POST:
 		print("form submitted")
@@ -92,8 +93,6 @@ def flipk_Home(request):
 	datapla['totals'][9] = float(datapla['totals'][9]/len(datapla['roi'])) if datapla['totals'][9] !=0 else 0
 	print(datapla)
 
-
-
 	return render(request, "Home_new.html", { 'pf_op':platf, 'balance':bal, 'data':datapla})
 
 
@@ -101,60 +100,10 @@ def flipk_Home(request):
 
 
 def content1(request):
-	# cookie = cookie_generator()  #Dangerouse method do not call frequently.
-	# print(cookie[1])
-	# if cookie[1] == 200:
-	# 	c_payload(cookie[0])
-
 	row_list = []
-	f = records.objects.all()
-	for i in f:
-		cont = i.__dict__
-		cont.pop("_state")
-		cont.pop("id")
-		row_list.append(cont)
-
-	cntry = []
-	intens = []
-	for f in records.objects.raw("SELECT * FROM Dash_records WHERE intensity > 1 GROUP BY country"):
-		cntry.append(f.country) 
-		intens.append(f.intensity)
-
-	topic = []
-	likelihood = []	
-	for f in records.objects.raw("SELECT * FROM Dash_records WHERE likelihood > 0 GROUP BY topic"):
-		topic.append(f.topic) 
-		likelihood.append(f.likelihood)
-
-		likelihood = likelihood[:20]
-		topic = topic[:20]
-		
-	region = []
-	relev = []
-	for f in records.objects.raw("SELECT * FROM Dash_records WHERE relevance > 0 GROUP BY region "):
-		region.append(f.region)
-		relev.append(f.relevance)
-
-
-	inte = []
-	imp = []
-	rel = []
-	source = []
-
-	for f in records.objects.raw("SELECT * FROM Dash_records WHERE intensity > 0 AND impact > 0 AND relevance > 0"):
-		inte.append(f.intensity)
-		imp.append(f.impact)
-		rel.append(f.relevance)
-		source.append(f.source)
-
+	bal = request.session["wallet_balance"] 
 	platf = request.session['platform']
-	return render(request, "content3.html", { "data": row_list, 'pf_op':platf,
-										   "cntry":json.dumps(cntry), "intens":json.dumps(intens),
-										   "tp":json.dumps(topic), "like":json.dumps(likelihood), 
-										   "reg":json.dumps(region), "rel":json.dumps(relev), 
-										   "int": json.dumps(inte), "imp":json.dumps(imp), 
-										   "rel":json.dumps(rel), "src":json.dumps(source)
-										   	})
+	return render(request, "content3.html", { "data": row_list, 'balance':bal, 'pf_op':platf, })
 
 
 def content3(request):
@@ -192,7 +141,7 @@ def content3(request):
 				# 	os.system(f"pause_resume_hip.py --p1 {a} --p2 {b} --p3 {c} --p4 {d} ")
 			start_date, end_date = tuple(inpu_date.split('/'))
 			campdata = payloadcampagins(cookie, start_date=start_date, end_date=end_date)
-		return render(request, "content2.html", {'campagin':campdata, 'pf_op':platf, 'data':[]})
+		return render(request, "flipcamp.html", {'campagin':campdata, 'pf_op':platf, 'data':[]})
 	else:
 		sd, ed = '2024-02-13', '2024-02-14'
 		if request.POST:
