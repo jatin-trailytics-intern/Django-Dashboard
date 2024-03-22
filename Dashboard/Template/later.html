@@ -273,7 +273,46 @@ button:hover{
 </form>
 
   {% block content %}
+  <div id="rules-table"></div>
+  <script>
 
+
+var tabledata2 = [
+ { id: 1034, date: '2024-03-14', rule_nm:"TRIPLE", module: "Trailytics RDX", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+      { id: 1035, date: '2024-03-15', rule_nm:"TRIPLE", module: "Trailytics DYNAMITT", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+      { id: 1036, date: '2024-03-16', rule_nm:"TRIPLE", module: "Trailytics G-30", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+      { id: 1037, date: '2024-03-17', rule_nm:"TRIPLE", module: "Trailytics OPERATOR", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+      { id: 1038, date: '2024-03-18', rule_nm:"TRIPLE", module: "Trailytics VANDAL", type: "rule", col: "red", sched:"AT 12:30", vr:"LINK" },
+    ]
+
+
+    var table2 = new Tabulator("#rules-table", {
+      data: tabledata2,           //load row data from rule 
+           //fit columns to width of table
+      responsiveLayout: "scroll",  //hide columns that don't fit on the table
+      addRowPos: "top",          //when adding a new row, add it to the top of the table
+      history: true,             //allow undo and redo actions on the table
+      pagination: "local",       //paginate the data
+      paginationSize: 5,         //allow 7 rows per page of data
+      paginationCounter: "rows", //display count of paginated rows in footer
+      movableColumns: true,      //allow column order to be changed
+      initialSort: [             //set the initial sort order of the data
+        { column: "name", dir: "asc" },
+      ],
+      columnDefaults: {
+        tooltip: true,         //show tool tips on cells
+      },
+      columns: [                 //define the table columns
+        { title: "#", field: "id",width: 100, scope: 'col', frozen:true},
+        { title: "NAME", field:"rule_nm", width:150, hozAlign: "left",  scope: 'col' },
+        { title: "MODULE", field: "module", width: 150, hozAlign:"left", scope: 'col' },
+        { title: "RULE TYPE", field: "type", width:100, hozAlign: "left", scope: 'col'},
+        { title: "SCHEDULE", field: "sched", width: 100, editor: "input", scope: 'col' },
+        { title: "VIEW RULE", field: "vr", width: 200, hozAlign: "left", scope: 'col' },
+      ],
+    });
+
+</script>
   {% endblock %}
 
 
