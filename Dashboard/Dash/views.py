@@ -6,6 +6,7 @@ from corescripts.channel import *
 from corescripts.pla import *
 from corescripts.pca import *
 from corescripts.main_pla_pca import *
+from corescripts.fproductv import *
 from corescripts.fk_walllet_balance import *
 from corescripts.amazon_scripts.Amazon_campaigns import *
 from corescripts.amazon_scripts.amzadgroups import *
@@ -228,7 +229,7 @@ def keywords(request):
 
 
 
-def amazon_Product(request):
+def Product(request):
 	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today())
 	platf = request.session['platform']
 	bal = request.session["wallet_balance"]
@@ -241,7 +242,10 @@ def amazon_Product(request):
 		return render(request, "amzproduct.html", {'product': productdata, 'pf_op':platf, 'data':[]})
 	
 	else:
-		return redirect('404')
+		productdata = flipk_payload()
+		print(productdata)
+		# return None
+		return render(request, "fliproduct.html", {'product': productdata, 'pf_op':platf, 'data':[]})
 
 
 
