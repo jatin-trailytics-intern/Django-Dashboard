@@ -11,9 +11,13 @@ from corescripts.fk_walllet_balance import *
 from corescripts.amazon_scripts.Amazon_campaigns import *
 from corescripts.amazon_scripts.amzadgroups import *
 from corescripts.amazon_scripts.fetching_product_data import *
-
 import requests
 import os
+
+
+
+def enter(request):
+	return redirect(amazon_Home)
 
 
 
@@ -98,19 +102,22 @@ def flipk_Home(request):
 
 
 
-
-def content1(request):
+def Portfolio(request):
 	row_list = []
 	bal = request.session["wallet_balance"] 
 	platf = request.session['platform']
 	return render(request, "content3.html", { "data": row_list, 'balance':bal, 'pf_op':platf, })
 
 
-def content3(request):
+
+
+
+
+def Campagins(request):
 	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today())
 	platf = request.session['platform']
-	bal = request.session["wallet_balance"]
 	if platf == 'Flipkart':
+		bal = request.session["wallet_balance"]
 		campdata = []
 		campdata =[{'campaign_status': 'LIVE', 'campaign_name': 'new giftsets', 'campaign_start_and_end_date': "15 Feb '24 - Till budget ends", 'campaign_type': 'BRAND_PCA', 'campaign_id': 'P0XSUPVCJKA7', 'campaign_budget': '400000.0', 'CTR': '0.0123', 'Cost': '190164.0000', 'total_converted_revenue': '594942.0000', 'clicks': '27188', 'total_converted_units': '1410', 'roi': '3.1286', 'views': '2211218', 'cvr': '0.0519', 'Actions': '["AUDIT_TRAIL","BCAP_RESUME","COMPLETE","ABORT","COMMIT","ARCARIUS_PAUSE","USER_PAUSE","EDIT","ARCARIUS_RESUME","BCAP_PAUSE"]'},
 				   {'campaign_status': 'LIVE', 'campaign_name': 'premium perf', 'campaign_start_and_end_date': "08 Dec '23 - Till budget ends", 'campaign_type': 'BRAND_PLA', 'campaign_id': 'KVACVQ6WVTD6', 'campaign_budget': '1200000.0', 'CTR': '0.0147', 'Cost': '58560.0000', 'total_converted_revenue': '155137.0000', 'clicks': '8860', 'total_converted_units': '275', 'roi': '2.6492', 'views': '601703', 'cvr': '0.0310', 'Actions': '["AUDIT_TRAIL","BCAP_RESUME","COMPLETE","ABORT","COMMIT","ARCARIUS_PAUSE","USER_PAUSE","EDIT","ARCARIUS_RESUME","BCAP_PAUSE"]'},
@@ -141,8 +148,9 @@ def content3(request):
 				# 	os.system(f"pause_resume_hip.py --p1 {a} --p2 {b} --p3 {c} --p4 {d} ")
 			start_date, end_date = tuple(inpu_date.split('/'))
 			campdata = payloadcampagins(cookie, start_date=start_date, end_date=end_date)
-		return render(request, "flipcamp.html", {'campagin':campdata, 'pf_op':platf, 'data':[]})
+		return render(request, "flipcamp.html", {'campagin':campdata, 'balance': bal, 'pf_op':platf, 'data':[]})
 	else:
+		bal = request.session["wallet_balance"]
 		sd, ed = '2024-02-13', '2024-02-14'
 		if request.POST:
 			inpu_date = request.POST.get('dates', None)
@@ -160,18 +168,24 @@ def content3(request):
 
 
 
+def Adsgroup(request):
+	platf = request.session['platform']
+	bal = request.session["wallet_balance"]
+	if platf == 'Amazon':
+		ads_grp_data = adsGroupData()
+
+		return render(request, "adgroup.html", {'add_group_data':ads_grp_data, 'pf_op':platf, 'data':[], 'balance': bal})
+	else:
+		return redirect('404')
+
+
+
 
 def keywords(request):
+	platf = request.session['platform']
+	bal = request.session["wallet_balance"]
 	keyword = [{'campaign_id': '8VN5DXLKJN8A', 'campaign_name': 'Acne Patch KW PLA', 'adgroup_id': 'YZFM9CTUO7TP', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'BROWSE_PAGE_TOP_SLOT', 'views': 19, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': '8VN5DXLKJN8A', 'campaign_name': 'Acne Patch KW PLA', 'adgroup_id': 'YZFM9CTUO7TP', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'SEARCH_PAGE', 'views': 0, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': '8VN5DXLKJN8A', 'campaign_name': 'Acne Patch KW PLA', 'adgroup_id': 'YZFM9CTUO7TP', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'HOME_PAGE', 'views': 0, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': '8VN5DXLKJN8A', 'campaign_name': 'Acne Patch KW PLA', 'adgroup_id': 'YZFM9CTUO7TP', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'BROWSE_PAGE_TOP_SLOT', 'views': 16, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': '8VN5DXLKJN8A', 'campaign_name': 'Acne Patch KW PLA', 'adgroup_id': 'YZFM9CTUO7TP', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'PRODUCT_PAGE', 'views': 80, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'PRODUCT_PAGE', 'views': 221, 'clicks': 6.0, 'ctr': 2.7149, 'cpc': 2.2, 'cvr': 0, 'adspend': 13.2, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'SEARCH_PAGE_TOP_SLOT', 'views': 0, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'SEARCH_PAGE', 'views': 120, 'clicks': 2.0, 'ctr': 1.6667, 'cpc': 2.2, 'cvr': 0, 'adspend': 4.4, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'BROWSE_PAGE_TOP_SLOT', 'views': 11, 'clicks': 2.0, 'ctr': 18.1818, 'cpc': 2.2, 'cvr': 0, 'adspend': 4.4, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'BROWSE_PAGE_TOP_SLOT', 'views': 33, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}, {'campaign_id': 'OWL1UYKSNRYR', 'campaign_name': 'Hair Removal Spray Generic  KW', 'adgroup_id': 'JJPFWFQ6J2C8', 'adgroup_name': 'Body and Face Skin Care', 'placement_type': 'HOME_PAGE', 'views': 0, 'clicks': 0.0, 'ctr': 0.0, 'cpc': 0.0, 'cvr': 0, 'adspend': 0.0, 'usdir': 0, 'usind': 0, 'revenue': 0, 'Inrevenue': 0, 'roid': 0.0, 'roii': 0.0, 'roas': 0, 'troas': 0, 'service': 'SERVICEABLE', 'category': 'PLA', 'required': 2.2}]
-	return render(request, "flipk_key.html", {'keyword': keyword})
-
-
-
-
-
-
-
-
+	return render(request, "flipk_key.html", {'keyword': keyword, 'pf_op':platf, 'balance': bal })
 
 
 
@@ -188,37 +202,14 @@ def Product(request):
 		productdata = package_data(start_date= start_date, end_date= end_date)
 		# print(productdata)
 		
-		return render(request, "amzproduct.html", {'product': productdata, 'pf_op':platf, 'data':[]})
+		return render(request, "amzproduct.html", {'product': productdata, 'balance': bal, 'pf_op':platf, 'data':[]})
 	
 	else:
 		productdata = flipk_payload()
 		print(productdata)
 		# return None
-		return render(request, "fliproduct.html", {'product': productdata, 'pf_op':platf, 'data':[]})
+		return render(request, "fliproduct.html", {'product': productdata, 'balance': bal, 'pf_op':platf, 'data':[]})
 
-
-
-
-
-
-
-def enter(request):
-	return redirect(amazon_Home)
-
-
-
-
-
-
-def Adsgroup(request):
-	platf = request.session['platform']
-	bal = request.session["wallet_balance"]
-	if platf == 'Amazon':
-		ads_grp_data = adsGroupData()
-
-		return render(request, "adgroup.html", {'add_group_data':ads_grp_data, 'pf_op':platf, 'data':[], 'balance': bal})
-	else:
-		return redirect('404')
 
 
 
