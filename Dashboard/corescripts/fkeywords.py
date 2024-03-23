@@ -52,6 +52,7 @@ def flipKeywords():
 
 
 
-# result = flipKeywords()
+# result = flipKeywords()[0]
+# print(result)
 # for i in result:
 #     print(i, "\n")

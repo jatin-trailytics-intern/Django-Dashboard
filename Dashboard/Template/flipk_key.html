@@ -387,7 +387,22 @@ var table = new Tabulator("#main-table", {
     columnDefaults:{tooltip:true,},
     columns:[  
         {title:"TARGET", formatter:Editbut, minWidth:150, hozAlign:"left",editor:false, frozen:true, }, 
-        {title:"BID",  formatter:optizens,  width:150, hozAlign:"left", editor:false, frozen:true},
+        {title:"BID",  formatter:optizens,  width:150, hozAlign:"left", editor:false, frozen:true, cellMouseEnter:function(e, cell){
+            const forms = document.querySelector('#post_data');
+            var this_row_data = cell.getRow().getData();
+            var this_cell_container =  cell._cell.element.children[0].children[0].children[0].children;
+            this_cell_container[1].addEventListener('click',()=>{
+                forms[1].value = this_row_data.Placement_Type;
+                forms[2].value = this_cell_container[0].value;
+                forms[3].value = this_row_data.Placement_Type;
+                forms[4].click();
+            });
+
+            // this_cell_container[2].addEventListener('click',()=>{
+            //     this_cell_container[0].value = 0
+            // });
+} 
+},
         {title:"AD GROUP", field:"AdGroup_Name", width:210, hozAlign:"left", editor:false },
         {title:"SPENDS", field:"Ad_Spend", width:100, hozAlign:"left", editor:false, topCalc: "sum" },
         {title:"SALES", field:"Units_Sold_Direct", width:100, hozAlign:"left", editor:false, topCalc: "sum" },
