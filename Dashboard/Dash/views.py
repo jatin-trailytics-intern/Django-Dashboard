@@ -13,6 +13,7 @@ from corescripts.amazon_scripts.Amazon_campaigns import *
 from corescripts.amazon_scripts.amzadgroups import *
 from corescripts.amazon_scripts.amz_keywords import *
 from corescripts.amazon_scripts.fetching_product_data import *
+from corescripts.amazon_scripts.getting_portfolio import *	
 import requests
 import os
 
@@ -105,10 +106,33 @@ def flipk_Home(request):
 
 
 def Portfolio(request):
-	row_list = []
-	bal = request.session["wallet_balance"] 
+	start_date, end_date = str(DT.date.today() - DT.timedelta(days=7)), str(DT.date.today())
 	platf = request.session['platform']
-	return render(request, "content3.html", { "data": row_list, 'balance':bal, 'pf_op':platf, })
+	bal = request.session["wallet_balance"]
+
+	if platf == 'Amazon':
+		if request.POST:
+			inpu_date = request.POST.get('dates', None)
+			# if inpu_date == None:
+			# 	a = request.POST.get('para1', None)
+			# 	b = request.POST.get('para2', None)
+			# 	c = request.POST.get('para3', None)
+			# 	d = request.POST.get('para4', None)
+			# 	print(a, b, c, d)
+
+			# sakshi vaval
+			# os.system(f"amzpost\enable_disable_campaign.py --p1 {b.lower()}  --p2 {a} --p3 {c}")
+
+			# print("form submitted")
+			start_date, end_date = tuple(inpu_date.split('/'))
+
+		amz_portfolio_data = amzPortfolio(start_date= start_date, end_date= end_date)
+		
+		return render(request, 'amzportfolio.html', {'portfolio': 	amz_portfolio_data, 'balance': bal, 'pf_op':platf, 'data':[]})
+	
+	
+	else:
+		return redirect('404')
 
 
 
