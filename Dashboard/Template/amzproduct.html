@@ -371,7 +371,7 @@ var table = new Tabulator("#main-table", {
     initialSort:[ {column:"Product", dir:"asc"},],
     columnDefaults:{tooltip:true,},
     columns:[  
-        {title:"Product", formatter:selectfield,  width:400, hozAlign:"left", frozen:true, editor:false }, 
+        {title:"Product", formatter:selectfield,  width:400, hozAlign:"left", frozen:true, editor:false, topCalc: total_text }, 
         // {title:"Product", field:"product_name", width:300, hozAlign:"left", frozen:true, editor:false },
 
         {title:"AD Group", field:"ad_group_name", width:250, hozAlign:"left", editor:false},
