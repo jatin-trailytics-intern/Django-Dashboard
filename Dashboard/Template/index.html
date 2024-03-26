@@ -325,18 +325,33 @@ fill="#0e88ff" stroke="none">
 </div>
 
 <div class="tabs-exportbtn__container " style="margin-left: 16vw; margin-top:10px;  margin-bottom: 5px;">
+  
+  {% if pf_op == 'Amazon' %}
+  <a id="overview-tab" class="tabs " href="{% url 'amzhome' %}"><span>Overview&nbsp;</span></a>
+  
+  <a id="portfolios-tab" class=" tabs" href="{% url 'portfolio' %}"><span>Portfolios&nbsp;<span id="portfolios-badge"><span class="mx-1 rounded-pill badge bg-dark">7</span></span></span></a>
+  
+  <a id="campaigns-tab" class=" tabs"  href="{% url 'camp' %}"><span>Campaigns&nbsp;<span id="campaigns-badge"><span class="mx-1 rounded-pill badge bg-dark">141</span></span></span></a>
+  
+  <a id="adgroups-tab" class="tabs " href="{% url 'adgroup' %}"><span>Adgroups&nbsp;<span id="adgroups-badge"><span class="mx-1 rounded-pill badge bg-dark">59</span></span></span></a>
 
-<a id="overview-tab" class="tabs " href="{% url 'amzhome' %}"><span>Overview&nbsp;</span></a>
+  <a id="keywords-tab" class=" tabs" href="{% url 'key' %}"><span>Keywords&nbsp;<span id="keywords-badge"><span class="mx-1 rounded-pill badge bg-dark">670</span></span></span></a>
+  
+  <a id="products-tab" class="tabs " href="{% url 'product' %}"><span>Products&nbsp;<span id="products-badge"><span class="mx-1 rounded-pill badge bg-dark">45</span></span></span></a>
 
-<a id="portfolios-tab" class=" tabs" href="{% url 'portfolio' %}"><span>Portfolios&nbsp;<span id="portfolios-badge"><span class="mx-1 rounded-pill badge bg-dark">7</span></span></span></a>
+  {% else %}
 
-<a id="campaigns-tab" class=" tabs"  href="{% url 'camp' %}"><span>Campaigns&nbsp;<span id="campaigns-badge"><span class="mx-1 rounded-pill badge bg-dark">141</span></span></span></a>
+  <a id="overview-tab" class="tabs " href="{% url 'amzhome' %}"><span>Overview&nbsp;</span></a>
 
-<a id="adgroups-tab" class="tabs " href="{% url 'adgroup' %}"><span>Adgroups&nbsp;<span id="adgroups-badge"><span class="mx-1 rounded-pill badge bg-dark">59</span></span></span></a>
+  <a id="campaigns-tab" class=" tabs"  href="{% url 'camp' %}"><span>Campaigns&nbsp;<span id="campaigns-badge"><span class="mx-1 rounded-pill badge bg-dark">141</span></span></span></a>
 
-<a id="keywords-tab" class=" tabs" href="{% url 'key' %}"><span>Keywords&nbsp;<span id="keywords-badge"><span class="mx-1 rounded-pill badge bg-dark">670</span></span></span></a>
+  <a id="keywords-tab" class=" tabs" href="{% url 'key' %}"><span>Keywords&nbsp;<span id="keywords-badge"><span class="mx-1 rounded-pill badge bg-dark">670</span></span></span></a>
+  
+  <a id="products-tab" class="tabs " href="{% url 'product' %}"><span>Products&nbsp;<span id="products-badge"><span class="mx-1 rounded-pill badge bg-dark">45</span></span></span></a>
 
-<a id="products-tab" class="tabs " href="{% url 'product' %}"><span>Products&nbsp;<span id="products-badge"><span class="mx-1 rounded-pill badge bg-dark">45</span></span></span></a></div>
+  {% endif %}
+
+</div>
 
 
 
