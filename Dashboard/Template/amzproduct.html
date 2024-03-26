@@ -330,6 +330,10 @@
   console.log({{ product|safe }});
 
 
+  var total_text = function (cell, formatterParams, onRendered){
+      return 'Total';
+    };
+
 var selectfield =function(cell, formatterParams, onRendered){ //plain text value
     var data = cell.getRow().getData();
     return '<label><input type="checkbox">' +  data.product_name +' </label>';
