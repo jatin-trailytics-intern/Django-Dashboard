@@ -177,7 +177,7 @@ button:hover{
   </ul>
     <ul class="nav flex-column mb-2">
       <li class="nav-item p-1">
-        <a class="nav-link text-white fs-6 " href="../Home">
+        <a class="nav-link text-white fs-6 " href="{% if pf_op == 'Amazon' %}{% url 'amzhome' %} {% else %} {% url 'flipkhome' %}{% endif %}">
           Performance Overview
         </a>
       </li>
@@ -341,7 +341,7 @@ fill="#0e88ff" stroke="none">
 
   {% else %}
 
-  <a id="overview-tab" class="tabs " href="{% url 'amzhome' %}"><span>Overview&nbsp;</span></a>
+  <a id="overview-tab" class="tabs " href="{% url 'flipkhome' %}"><span>Overview&nbsp;</span></a>
 
   <a id="campaigns-tab" class=" tabs"  href="{% url 'camp' %}"><span>Campaigns&nbsp;<span id="campaigns-badge"><span class="mx-1 rounded-pill badge bg-dark">141</span></span></span></a>
 

@@ -342,6 +342,17 @@
     return "<div class='' style='display:flex; justify-content: space-between; position: relative; width:270px' ><a style=' width:100px;'>" + data.Portfolio + "</a> <button id='editor'> <svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='18' height='18' viewBox='0 0 24 24'><path d='M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L14.076172 5.9238281 z'></path></svg></button></div> <div style= ></div>" + weirdo;
   };
 
+  // to round the total value of diffrent columns
+  var roundSum = function customTopCalc(values, data, calcParams) {
+    let sum = 0;
+    values.forEach(value => {
+        sum += value;
+    });
+    // Round sum to two decimal places 
+    sum = Math.round(sum * 100) / 100;
+    return sum;
+  };
+
 
 
   var tabledata = [
@@ -360,7 +371,7 @@
       addRowPos: "top",          //when adding a new row, add it to the top of the table
         history: true,             //allow undo and redo actions on the table
           pagination: "local",       //paginate the data
-            paginationSize: 7,         //allow 7 rows per page of data
+            paginationSize: 8,         //allow 7 rows per page of data
               paginationCounter: "rows", //display count of paginated rows in footer
                 rowFormatter: function(row) {
                   var data = row.getData();
@@ -375,7 +386,7 @@
                     rowRange:"active" //only toggle the values of the active filtered rows
                 }, hozAlign:"left",  frozen:true, headerSort:false, width: 50},
               {
-                title: "Portfolio", formatter: Editbut, width: 350, frozen:true, 
+                title: "Portfolio", formatter: Editbut, width: 320, frozen:true, 
                 cellMouseEnter: function (e, cell) {
                   var oldname = cell.getRow().getData()['Portfolio']
                   cell._cell.element.children[0].children[1].addEventListener('click', () => {
@@ -405,32 +416,32 @@
               },
             },
         
-        {title:"Impressions", field:"TotalImpressions", width:150, hozAlign:"center", editor:false, topCalc: "sum"},
-        {title:"Clicks", field:"TotalClicks", width:140, hozAlign:"center", editor:false, topCalc: "sum"},
-        {title:"Spends", field:"TotalSpend_INR", width:140, hozAlign:"center", editor:false, formatter: function(cell) {
+        {title:"Impressions", field:"TotalImpressions", width:150, hozAlign:"center", editor:false, topCalc: roundSum},
+        {title:"Clicks", field:"TotalClicks", width:150, hozAlign:"center", editor:false, topCalc: roundSum},
+        {title:"Spends", field:"TotalSpend_INR", width:150, hozAlign:"center", editor:false, formatter: function(cell) {
             var originalValue = cell.getValue();
             var roundedValue = Math.round(originalValue * 100) / 100;
             
             return roundedValue;
-        }, topCalc: "sum" },
+        }, topCalc: roundSum },
         {title:"Orders", field:"TotalOrders", width:150, hozAlign:"center",  editor:false, formatter: function(cell) {
             var originalValue = cell.getValue();
             var roundedValue = Math.round(originalValue * 100) / 100;
             
             return roundedValue;
-        }, topCalc: "sum" },
+        }, topCalc: roundSum },
         {title:"Sales", field:"TotalSales_INR", width:150, hozAlign:"center",  editor:false, formatter: function(cell) {
             var originalValue = cell.getValue();
             var roundedValue = Math.round(originalValue * 100) / 100;
             
             return roundedValue;
-        }, topCalc: "sum" },
+        }, topCalc: roundSum },
         {title:"CTR", field:"TotalCTR", width:150, hozAlign:"center", editor:false, formatter: function(cell) {
             var originalValue = cell.getValue();
             var roundedValue = Math.round(originalValue * 100) / 100;
             
             return roundedValue;
-        }, topCalc: "sum" },
+        }, topCalc: roundSum },
         
     ],
 
