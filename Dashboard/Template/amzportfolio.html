@@ -349,7 +349,7 @@
         sum += value;
     });
     // Round sum to two decimal places 
-    sum = Math.round(sum * 100) / 100;
+    sum = Math.round((sum + Number.EPSILON) * 100) / 100;
     return sum;
   };
 
@@ -416,32 +416,32 @@
               },
             },
         
-        {title:"Impressions", field:"TotalImpressions", width:150, hozAlign:"center", editor:false, topCalc: roundSum},
-        {title:"Clicks", field:"TotalClicks", width:150, hozAlign:"center", editor:false, topCalc: roundSum},
+        {title:"Impressions", field:"TotalImpressions", width:150, hozAlign:"center", editor:false, topCalc: "sum"},
+        {title:"Clicks", field:"TotalClicks", width:150, hozAlign:"center", editor:false, topCalc: "sum"},
         {title:"Spends", field:"TotalSpend_INR", width:150, hozAlign:"center", editor:false, formatter: function(cell) {
             var originalValue = cell.getValue();
             var roundedValue = Math.round(originalValue * 100) / 100;
             
             return roundedValue;
-        }, topCalc: roundSum },
+        }, topCalc: "sum" },
         {title:"Orders", field:"TotalOrders", width:150, hozAlign:"center",  editor:false, formatter: function(cell) {
             var originalValue = cell.getValue();
             var roundedValue = Math.round(originalValue * 100) / 100;
             
             return roundedValue;
-        }, topCalc: roundSum },
+        }, topCalc: "sum" },
         {title:"Sales", field:"TotalSales_INR", width:150, hozAlign:"center",  editor:false, formatter: function(cell) {
             var originalValue = cell.getValue();
             var roundedValue = Math.round(originalValue * 100) / 100;
             
             return roundedValue;
-        }, topCalc: roundSum },
+        }, topCalc: "sum" },
         {title:"CTR", field:"TotalCTR", width:150, hozAlign:"center", editor:false, formatter: function(cell) {
             var originalValue = cell.getValue();
             var roundedValue = Math.round(originalValue * 100) / 100;
             
             return roundedValue;
-        }, topCalc: roundSum },
+        }, topCalc: "sum" },
         
     ],
 

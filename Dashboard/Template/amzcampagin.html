@@ -283,7 +283,6 @@
   }
 
   #main-table>div.tabulator-tableholder>div>div:nth-child(1)>div:nth-child(5) {
-    width: 225px !important;
    
   }
 
@@ -381,7 +380,8 @@ var table = new Tabulator("#main-table", {
     columnDefaults:{tooltip:true,},
     columns:[  
         // {formatter:"rowSelection", titleFormatter:"rowSelection", width:20,  headerSort:false, frozen:true},
-        {title:"CAMPAIGN", formatter:Editbut, hozAlign:'center',frozen:true, vertAlign:"center",  sorter:'string', headerFilter:"input", cellMouseEnter: function (e, cell) {
+        
+        {title:"CAMPAIGN", formatter:Editbut, hozAlign:"left", frozen:true, vertAlign:"left",  sorter:'string', headerFilter:"input", cellMouseEnter: function (e, cell) {
                   var oldname = cell.getRow().getData()['campaign_name']
                   cell._cell.element.children[0].children[1].addEventListener('click', () => {
                     cell._cell.element.children[0].classList.add('disable');
@@ -393,7 +393,7 @@ var table = new Tabulator("#main-table", {
 
         {title:"Budget", formatter:optizens, hozAlign:"center", frozen:true, vertAlign:"center" },
         
-        {title:"STATUS", formatter:statusfield, hozAlign:"center", vertAlign:"center", frozen:true,  cellClick:function(e, cell){  
+        {title:"STATUS", formatter:statusfield, hozAlign:"center", vertAlign:"center", width:125, frozen:true,  cellClick:function(e, cell){  
             const check = document.querySelector('.toggle-switch');
             const forms = document.querySelector('#post_data');
             var rowd = cell.getRow().getData()
@@ -409,17 +409,17 @@ var table = new Tabulator("#main-table", {
             // console.log(e, returndata, check, forms)
         }},
 
-        {title:"TYPE", field:"campaign_type", hozAlign:"center", editor:false, frozen:true},
+        {title:"TYPE", field:"campaign_type", hozAlign:"left", editor:false, frozen:true, width:100},
         // {title:"Campaign Id", field:"campaign_id", hozAlign:"center", editor:false},
         // {title:"CTR", field:"CTR", hozAlign:"center", editor:false},
-        {title:"Spends", field:"spends", hozAlign:"center", editor:false},
-        {title:"Sales", field:"total_converted_revenue", hozAlign:"center", editor:false},
-        {title:"CTR", field:"total_converted_revenue", hozAlign:"center", editor:false}, 
-        {title:"Impressions", field:"views", hozAlign:"center", editor:false},
-        {title:"Clicks", field:"clicks", hozAlign:"center", editor:false},
-        {title:"Orders", field:"total_converted_units", hozAlign:"center", editor:false},
-        {title:"ROAS", field:"roas", hozAlign:"center", editor:false},
-        {title:"Campaign Tags", hozAlign:"center", editor:false}
+        {title:"Spends", field:"spends", hozAlign:"center", editor:false, width:100},
+        {title:"Sales", field:"total_converted_revenue", hozAlign:"center", editor:false, width:100},
+        {title:"CTR", field:"total_converted_revenue", hozAlign:"center", editor:false, width:100}, 
+        {title:"Impressions", field:"views", hozAlign:"center", editor:false, width:100},
+        {title:"Clicks", field:"clicks", hozAlign:"center", editor:false, width:100},
+        {title:"Orders", field:"total_converted_units", hozAlign:"center", editor:false, width:100},
+        {title:"ROAS", field:"roas", hozAlign:"center", editor:false, width:100},
+        {title:"Campaign Tags", hozAlign:"center", editor:false, width:100}
     ],
 
 });

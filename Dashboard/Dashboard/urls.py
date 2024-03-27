@@ -29,6 +29,7 @@ urlpatterns = [
     path('adgroup/', Adsgroup, name='adgroup'),
     path('Rules/', Rule, name='rule'), 
     path('keywrd/', keywords, name='key'),  
+
     path('failed/', page_404, name='404')
 
 ]
