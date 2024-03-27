@@ -260,6 +260,11 @@ def keywordAnalytics(request):
 	return render(request, 'keyword_analytics.html', {'pf_op':platf, })
 
 
+def productAnalytics(request):
+	platf = request.session['platform']
+	return render(request, 'product_analytics.html', {'pf_op':platf, })
+
+
 
 def page_404(request):
 	return render(request, 'page_404.html', {})

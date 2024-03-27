@@ -31,6 +31,8 @@ urlpatterns = [
     path('keywrd/', keywords, name='key'),  
 
     path('keywrd_analytics/', keywordAnalytics, name='keywrd_analytics'),  
+    path('product_analytics/', productAnalytics, name='product_analytics'),  
+
     path('failed/', page_404, name='404')
 
 ]
