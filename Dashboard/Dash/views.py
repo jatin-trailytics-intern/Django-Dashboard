@@ -255,7 +255,9 @@ def Rule(request, *args, **Kwargs):
 	return render(request, "later.html", { 'balance': bal, 'pf_op':platf,})
 
 
-
+def keywordAnalytics(request):
+	platf = request.session['platform']
+	return render(request, 'keyword_analytics.html', {'pf_op':platf, })
 
 
 
