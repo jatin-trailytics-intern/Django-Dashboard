@@ -308,7 +308,7 @@
 
 <main style="min-width:70vw; width: 92vw; padding-left: 8vw; margin-left:8vh">
   <div class="container-xl mx-5 my-5">
-    <form action="." method="POST" id="post_data" hidden>
+    <form action="." method="POST" id="post_data" >
 
       <input type="text" name="para1">
       <input type="text" name="para2">
@@ -394,7 +394,7 @@ var table = new Tabulator("#main-table", {
             this_cell_container[1].addEventListener('click',()=>{
                 forms[1].value = this_row_data.Placement_Type;
                 forms[2].value = this_cell_container[0].value;
-                forms[3].value = this_row_data.Placement_Type;
+                forms[3].value = this_row_data.Campaign_ID;
                 forms[4].click();
             });
 
